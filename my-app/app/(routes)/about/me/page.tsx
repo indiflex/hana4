@@ -1,6 +1,8 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { cn } from '@/lib/utils';
+import Modal from '@/components/Modal';
 
 export default function Me() {
   console.log('Mememememe!!!!!');
@@ -22,13 +24,13 @@ export default function Me() {
   };
 
   return (
-    <>
-      <div className='flex justify-between text-sm'>
+    <Modal>
+      <div className={cn('p-3 justify-between text-sm flex')}>
         <button onClick={goBack}>Back</button>
         <button onClick={goHello}>Hello</button>
         <button onClick={() => changeSearchParams('999')}>change xxx</button>
       </div>
       Me Page: {pathname}?xxx={searchParams.get('xxx')}
-    </>
+    </Modal>
   );
 }

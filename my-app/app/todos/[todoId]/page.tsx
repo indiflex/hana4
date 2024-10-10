@@ -25,7 +25,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function Todo({ params: { todoId } }: Params) {
+export default async function TodoPage({ params: { todoId } }: Params) {
   const { title, completed } = await getTodo(+todoId);
   console.log('todos/todo>>', todoId);
   if (!title) {
