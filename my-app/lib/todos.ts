@@ -9,7 +9,9 @@ export type Todo = {
 
 export const getTodos = async (userId: number = 1) => {
   const data = await fetch(`${BASE_URL}/todos?userId=${userId}`, {
-    cache: 'force-cache',
+    // cache: 'force-cache',
+    // cache: 'no-store',
+    next: { revalidate: 5 },
   }).then((res) => res.json());
 
   // const data = await res.json();
