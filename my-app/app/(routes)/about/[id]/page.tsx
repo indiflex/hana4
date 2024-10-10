@@ -18,7 +18,7 @@ export default async function AboutTodo({
 }: {
   params: { id: string };
 }) {
-  console.log('🚀 About - todo - id:', id);
+  // console.log('🚀 About - todo - id:', id);
   const todos = await getTodos(1);
   const todo = todos.find((td) => td.id === +id);
   if (!todo) {
