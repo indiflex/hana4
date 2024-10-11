@@ -32,7 +32,7 @@ export default function RootLayout({
         <header>
           <Nav />
         </header>
-        <div className='flex flex-col items-center'>{children}</div>
+        <div className='flex flex-col items-center px-5'>{children}</div>
         <footer>Hanaro 2004</footer>
       </body>
     </html>

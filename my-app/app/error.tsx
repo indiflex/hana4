@@ -14,7 +14,9 @@ export default function Error({
   return (
     <div>
       <h2>Something went wrong!</h2>
-      <pre style={{ color: 'red' }}>{error.stack || error.message}</pre>
+      <div className='w-full overflow-scroll text-red-500'>
+        {error.stack || error.message}
+      </div>
       <button onClick={() => reset()}>Try again</button>
     </div>
   );
