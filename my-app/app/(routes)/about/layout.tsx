@@ -4,7 +4,7 @@ import { auth } from '@/lib/auth';
 
 export default async function AboutLayout({ children }: PropsWithChildren) {
   const session = await auth();
-  console.log('🚀  session:', session);
+  // console.log('🚀  session:', session);
   return (
     <div className='border p-5'>
       <h1 className='text-2xl'>About Layout: {session?.user?.name}</h1>
