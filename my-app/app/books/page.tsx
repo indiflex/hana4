@@ -11,7 +11,7 @@ export default function Books() {
   const [searchStr, setSearchStr] = useState('');
 
   const { data: session } = useSession();
-  console.log('🚀  session:', session);
+  // console.log('🚀  session:', session);
 
   const { data: books } = useFetch<Book[]>(
     `${process.env.NEXT_PUBLIC_URL}/api/books?q=222`

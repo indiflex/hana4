@@ -13,7 +13,7 @@ export default async function AboutLayout({ children }: PropsWithChildren) {
         <Suspense fallback={<h1>Loading...</h1>}>{children}</Suspense>
       </div>
       {session?.user ? (
-        <Link href='/api/auth/signout'>Log Out</Link>
+        <Link href='/api/auth/signout?callbackUrl=/'>Log Out</Link>
       ) : (
         <Link href='/api/auth/signin'>Log In</Link>
       )}

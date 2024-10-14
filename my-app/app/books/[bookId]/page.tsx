@@ -15,7 +15,7 @@ export default async function Book({
   //   (res) => res.json()
   // )) as Book; // Bad!!
 
-  const book = getBook(+bookId); // Good
+  const book = await getBook(+bookId); // Good
   if (!book) return notFound();
 
   // const remove = () => {

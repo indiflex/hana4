@@ -11,7 +11,12 @@ export default function BooksLayout({ children }: { children: ReactNode }) {
     data: books,
     isLoading,
     error,
-  } = useFetch<Book[]>(`${process.env.NEXT_PUBLIC_URL}/api/books?q=111`);
+  } = useFetch<Book[]>(
+    `${process.env.NEXT_PUBLIC_URL}/api/books?q=111`,
+    {},
+    false,
+    [children]
+  );
 
   if (error) {
     return <div className='text-red-500'>{error.message}</div>;
