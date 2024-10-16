@@ -11,14 +11,14 @@ export const {
 } = NextAuth({
   providers: [
     Credentials({
-      name: 'Email',
+      name: '이메일',
       credentials: {
         email: {
           label: '이메일',
           type: 'email',
           placeholder: 'example@example.com',
         },
-        passwd: { label: 'Password', type: 'password' },
+        passwd: { label: '패스', type: 'password' },
       },
       async authorize(credentials) {
         if (!credentials || !credentials.email || !credentials.passwd)
@@ -39,4 +39,8 @@ export const {
       return session;
     },
   },
+  pages: {
+    signIn: '/login',
+  },
+  trustHost: true,
 });

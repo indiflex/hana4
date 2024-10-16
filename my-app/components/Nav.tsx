@@ -2,8 +2,15 @@ import { SessionProvider } from 'next-auth/react';
 import { auth } from '@/lib/auth';
 import SignInOut from './SingInOut';
 
+async function whoAmI() {
+  'use server';
+  const session = await auth();
+  return session?.user?.name || '';
+}
+
 export default async function Nav() {
   const session = await auth();
+
   return (
     <nav className='flex justify-around shadow mb-3'>
       <a href='/'>Home</a>
@@ -17,7 +24,7 @@ export default async function Nav() {
       <a href='/books'>Books</a>
       <a href='/about'>About</a>
       <SessionProvider session={session}>
-        <SignInOut />
+        <SignInOut whoami={whoAmI} />
       </SessionProvider>
     </nav>
   );

@@ -7,7 +7,8 @@ export async function middleware(req: NextRequest) {
   if (!didLogin) {
     const callbackUrl = encodeURIComponent(req.nextUrl.pathname);
     return NextResponse.redirect(
-      new URL(`/api/auth/signin?callbackUrl=${callbackUrl}`, req.url)
+      // new URL(`/api/auth/signin?callbackUrl=${callbackUrl}`, req.url)
+      new URL(`/login?callbackUrl=${callbackUrl}`, req.url)
     );
   }
 
@@ -21,5 +22,6 @@ export async function middleware(req: NextRequest) {
 export const config = {
   matcher: [
     '/((?!_next/static|_next/image|favicon.ico|robots.txt|images|api/auth|login|regist|$).*)',
+    '/',
   ],
 };
