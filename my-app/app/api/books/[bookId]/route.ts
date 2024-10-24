@@ -6,7 +6,7 @@ type Params = {
   params: { bookId: string };
 };
 
-export function GET(req: Request, { params: { bookId } }: Params) {
+export function GET(_req: Request, { params: { bookId } }: Params) {
   const book = getBook(+bookId);
   if (!book) return notFound();
 
@@ -21,7 +21,7 @@ export async function PATCH(req: Request, { params: { bookId } }: Params) {
   return Response.json(book);
 }
 
-export function DELETE(req: Request, { params: { bookId } }: Params) {
+export function DELETE(_req: Request, { params: { bookId } }: Params) {
   const idx = books.findIndex((book) => book.id === +bookId);
   if (idx === -1) return Response.json({ code: 404, message: 'Not Found' });
 

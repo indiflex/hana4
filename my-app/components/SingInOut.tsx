@@ -1,6 +1,6 @@
 'use client';
 
-import { mySignOut } from '@/actions/myauth';
+import { getSession, mySignOut } from '@/actions/myauth';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { Button } from './ui/button';
@@ -15,7 +15,9 @@ export default function SignInOut({
 
   useEffect(() => {
     (async function () {
-      setName(await whoami());
+      // setName(await whoami());
+      const ss = await getSession();
+      setName(ss?.user?.name || '');
     })();
   }, [whoami]);
 
@@ -26,13 +28,21 @@ export default function SignInOut({
         <a href='/api/auth/signout'>SignOut</a>
         <Button
           onClick={async () => {
-            await mySignOut();
+            await mySignOut({ redirectTo: '/about' });
           }}
         >
           {name} OUT {session?.user?.name}
         </Button>
+        <Button
+          onClick={async () => {
+            const ss = await getSession();
+            console.log('🚀  ss:', ss);
+          }}
+        >
+          OOO
+        </Button>
       </>
     );
 
-  return <a href='/api/auth/signin'>SignIn</a>;
+  return <a href='/login'>SignIn</a>;
 }

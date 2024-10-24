@@ -1,20 +1,27 @@
 'use server';
 
 import { AuthError } from 'next-auth';
-import { signIn, signOut } from '@/lib/auth';
+import { auth, signIn, signOut } from '@/lib/auth';
 
 export { signIn as mySignIn, signOut as mySignOut };
 
 export async function logIn(provider: 'google' | 'github') {
-  await signIn(provider, { redirectTo: '/' });
+  await signIn(provider, { redirectTo: '/about' });
+}
+
+export async function getSession() {
+  const session = await auth();
+  console.log('🚀 myauth - getSession:', session);
+  return session;
 }
 
 export async function authenticate(
-  prevState: string | undefined,
+  _prevState: string | undefined,
   formData: FormData
 ) {
   const email = formData.get('email');
   const passwd = formData.get('passwd');
+  console.log('🚀  email:', email, passwd);
   if (!email || !passwd) return 'Input the email & passwd, plz';
 
   try {
