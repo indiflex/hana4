@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { ReactNode } from 'react';
+import { auth } from '@/lib/auth';
 
-export default function ParallelLayout({
+export default async function ParallelLayout({
   children,
   login,
   profile,
@@ -10,7 +11,7 @@ export default function ParallelLayout({
   login: ReactNode;
   profile: ReactNode;
 }) {
-  const didLogin = false;
+  const didLogin = await auth();
   return (
     <>
       <h1 className='text-2xl'>Parallel Layout</h1>

@@ -50,7 +50,7 @@ export const {
       // select db...
       // if (alreadyRegist) return true;
 
-      if (name && email)
+      if (account?.provider === 'github' && name && email)
         return `/register?${new URLSearchParams({ name, email }).toString()}`;
       return true;
     },
