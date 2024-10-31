@@ -2,7 +2,9 @@ package trythis;
 
 import java.util.Scanner;
 
+// MyScan ms = new MyScan();
 public class MyScan {
+	// private String name;
 	public static void main(String[] args) {
 		// scanUserInfo();
 		scanTemp();
