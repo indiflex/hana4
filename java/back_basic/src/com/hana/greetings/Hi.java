@@ -43,7 +43,9 @@ public class Hi {
 				System.out.println("12");
 				System.out.println("123");
 			}
-			case "C" -> System.out.println("3");
+			case "C" -> {
+				System.out.println("3");
+			}
 			default -> System.out.println("default!");
 		}
 	}
