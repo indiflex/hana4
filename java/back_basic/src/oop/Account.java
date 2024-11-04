@@ -18,6 +18,28 @@ public class Account {
 		this(accountNo, name, 0);
 	}
 
+	public static void showSelectAccounts(Account[] accounts) {
+		showSelectAccounts(accounts, null);
+	}
+
+	public static void showSelectAccounts(Account[] accounts, Account me) {
+		StringBuilder msg = new StringBuilder();
+		for (Account acc : accounts) {
+			int no = acc.getAccountNo();
+			if (me != null && no == me.getAccountNo()) {
+				continue;
+			}
+			String name = acc.getName();
+			if (msg.isEmpty()) {
+				msg.append(" (%d:%s".formatted(no, name));
+			} else {
+				msg.append(", %d:%s".formatted(no, name));
+			}
+		}
+		msg.append("): ");
+		System.out.print(msg);
+	}
+
 	public int getAccountNo() {
 		return accountNo;
 	}
@@ -28,18 +50,6 @@ public class Account {
 
 	public double getBalance() {
 		return balance;
-	}
-
-	public void setBalance(double balance) {
-		this.balance = balance;
-	}
-
-	public Scanner getScan() {
-		return scan;
-	}
-
-	public void setScan(Scanner scan) {
-		this.scan = scan;
 	}
 
 	private void deposit() {
@@ -79,6 +89,22 @@ public class Account {
 		System.out.println(output);
 	}
 
+	public void transfer(Account[] accounts) {
+		if (this.isNotValidScan()) {
+			return;
+		}
+		System.out.println("누구에게 송금하시겠어요? ");
+		Account.showSelectAccounts(accounts, this);
+		int selectedAccNo = this.scan.nextInt();
+		Account toAccount = accounts[selectedAccNo - 1];
+
+		System.out.print("얼마를 송금하시겠어요? ");
+		double transAmount = this.transferTo(toAccount, this.scan.nextDouble());
+
+		System.out.printf("transAmount = %,.1f\n", transAmount);
+
+	}
+
 	public double transferTo(Account another, double amount) {
 		System.out.printf("%s이 %s에게 %,.1f원 송금 시도!\n", this.getName(), another.getName(), amount);
 		if (this.balance < amount) {
@@ -99,8 +125,16 @@ public class Account {
 	}
 
 	public void login() {
+		this.login(null);
+	}
+
+	public void login(Scanner scan) {
 		if (this.scan == null) {
-			this.scan = new Scanner(System.in);
+			if (scan != null) {
+				this.scan = scan;
+			} else {
+				this.scan = new Scanner(System.in);
+			}
 		}
 
 		// this.action();
@@ -108,8 +142,7 @@ public class Account {
 	}
 
 	public void action() {
-		if (this.scan == null) {
-			System.out.println("먼저 로그인하세요!");
+		if (isNotValidScan()) {
 			return;
 		}
 
@@ -130,6 +163,15 @@ public class Account {
 		}
 	}
 
+	private boolean isNotValidScan() {
+		if (this.scan == null) {
+			System.out.println("먼저 로그인하세요!");
+			return true;
+		}
+
+		return false;
+	}
+
 	public void logout() {
 		if (this.scan != null) {
 			this.scan.close();
@@ -141,6 +183,7 @@ public class Account {
 	public String toString() {
 		return "Account[id=%s, name=%s, balance=%,1f]".formatted(getAccountNo(), getName(), getBalance());
 	}
+
 }
 
 class T {
@@ -153,23 +196,12 @@ class T {
 
 		Scanner scan = new Scanner(System.in);
 		System.out.println("계좌를 선택하세요:");
-		for (Account acc : accounts) {
-			System.out.printf(" %d:%s, ", acc.getAccountNo(), acc.getName());
-		}
-		System.out.print(": ");
+		Account.showSelectAccounts(accounts);
 		int selectedAccNo = scan.nextInt();
 		Account workingAccount = accounts[selectedAccNo - 1];
-		System.out.println("누구에게 송금하시겠어요? ");
-		for (Account acc : accounts) {
-			System.out.printf(" %d:%s, ", acc.getAccountNo(), acc.getName());
-		}
-		selectedAccNo = scan.nextInt();
-		Account toAccount = accounts[selectedAccNo - 1];
-		System.out.print("얼마를 송금하시겠어요?");
-
-		double transAmount = workingAccount.transferTo(toAccount, scan.nextDouble());
-		
-		System.out.printf("transAmount = %,.1f\n", transAmount);
+		workingAccount.login(scan);
+		workingAccount.transfer(accounts);
+		workingAccount.logout();
 
 		// acc.login();
 		// acc.action();
