@@ -14,6 +14,34 @@ public class Account {
 		this.balance = balance;
 	}
 
+	public Account(int accountNo, String name) {
+		this(accountNo, name, 0);
+	}
+
+	public int getAccountNo() {
+		return accountNo;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public double getBalance() {
+		return balance;
+	}
+
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
+
+	public Scanner getScan() {
+		return scan;
+	}
+
+	public void setScan(Scanner scan) {
+		this.scan = scan;
+	}
+
 	private void deposit() {
 		System.out.print("입금할 금액은? ");
 		double amt = scan.nextDouble();
@@ -49,6 +77,25 @@ public class Account {
 			""".formatted(this.accountNo, this.name, this.balance);
 		final int hyphenCnt = 15;
 		System.out.println(output);
+	}
+
+	public double transferTo(Account another, double amount) {
+		System.out.printf("%s이 %s에게 %,.1f원 송금 시도!\n", this.getName(), another.getName(), amount);
+		if (this.balance < amount) {
+			System.out.println("잔액이 부족합니다!");
+			return 0;
+		}
+
+		this.balance -= amount;
+		another.balance += amount;
+
+		// System.out.println("송금 완료!!");
+		System.out.printf("%s이 %s에게 %,.1f원 송금 완료!\n", this.getName(), another.getName(), amount);
+
+		this.checkBalance();
+		another.checkBalance();
+
+		return this.balance;
 	}
 
 	public void login() {
@@ -90,14 +137,43 @@ public class Account {
 		this.display();
 	}
 
+	@Override
+	public String toString() {
+		return "Account[id=%s, name=%s, balance=%,1f]".formatted(getAccountNo(), getName(), getBalance());
+	}
 }
 
 class T {
 	public static void main(String[] args) throws Exception {
-		Account acc = new Account(1111, "Hong", 0);
+		Account accConan = new Account(1, "코난", 100000);
+		Account accRose = new Account(2, "장미", 100000);
+		Account accMiran = new Account(3, "미란", 100000);
 
-		acc.login();
-		acc.action();
-		acc.logout();
+		Account[] accounts = new Account[] {accConan, accRose, accMiran};
+
+		Scanner scan = new Scanner(System.in);
+		System.out.println("계좌를 선택하세요:");
+		for (Account acc : accounts) {
+			System.out.printf(" %d:%s, ", acc.getAccountNo(), acc.getName());
+		}
+		System.out.print(": ");
+		int selectedAccNo = scan.nextInt();
+		Account workingAccount = accounts[selectedAccNo - 1];
+		System.out.println("누구에게 송금하시겠어요? ");
+		for (Account acc : accounts) {
+			System.out.printf(" %d:%s, ", acc.getAccountNo(), acc.getName());
+		}
+		selectedAccNo = scan.nextInt();
+		Account toAccount = accounts[selectedAccNo - 1];
+		System.out.print("얼마를 송금하시겠어요?");
+
+		double transAmount = workingAccount.transferTo(toAccount, scan.nextDouble());
+		
+		System.out.printf("transAmount = %,.1f\n", transAmount);
+
+		// acc.login();
+		// acc.action();
+		// acc.logout();
+
 	}
 }
