@@ -35,7 +35,7 @@ public class SuperPerson {
 		if (obj == null || getClass() != obj.getClass()) {
 			return false;
 		}
-		Person person = (Person)obj;
+		SuperPerson person = (SuperPerson)obj;
 		return age == person.getAge() && Objects.equals(name, person.getName());
 	}
 
