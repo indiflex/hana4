@@ -3,22 +3,20 @@ package oop;
 import java.util.Objects;
 
 public class SuperPerson {
-	public static void main(String[] args) {
-		Person hong = new Person("Hong", 33);
-		System.out.println("hong = " + hong);
-		Person kim = new Person("Kim", 30);
-		System.out.println("kim = " + kim);
-		System.out.println("age=" + kim.getAge());
-	}
-}
-
-class Person {
 	private final String name;
-	private int age;
+	private final int age;
 
-	public Person(String name, int age) {
+	public SuperPerson(String name, int age) {
+		System.out.println("Super2");
 		this.name = name;
 		this.age = age;
+	}
+
+	public SuperPerson() {
+		// this("", 0);
+		this.name = "";
+		this.age = 0;
+		System.out.println("Super1");
 	}
 
 	public String getName() {
@@ -27,10 +25,6 @@ class Person {
 
 	public int getAge() {
 		return age;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
 	}
 
 	@Override
@@ -42,7 +36,7 @@ class Person {
 			return false;
 		}
 		Person person = (Person)obj;
-		return age == person.age && Objects.equals(name, person.name);
+		return age == person.getAge() && Objects.equals(name, person.getName());
 	}
 
 	@Override
@@ -53,7 +47,15 @@ class Person {
 
 	@Override
 	public String toString() {
-		return "Person{"
+		return "SuperPerson{"
 			+ "name='" + name + '\'' + ", age=" + age + '}';
+	}
+
+	public static void main(String[] args) {
+		Person hong = new Person("Hong", 33);
+		System.out.println("hong = " + hong);
+		// Person kim = new Person("Kim", 30);
+		// System.out.println("kim = " + kim);
+		// System.out.println("age=" + kim.getAge());
 	}
 }
