@@ -1,6 +1,9 @@
+import static java.lang.Math.*;
+
 import java.util.Arrays;
 
 public class Hello {
+	private static int x;
 	private int id;
 	private String name;
 
@@ -10,6 +13,7 @@ public class Hello {
 
 	public void setName(String name) {
 		this.name = name;
+		System.out.println("Math.abs(-1) = " + abs(-1));
 	}
 
 	public int getId() {
@@ -17,7 +21,9 @@ public class Hello {
 	}
 
 	public static void main(String[] args) {
+		Hello.x = 999;
 		Hello hello = new Hello();
+		System.out.println("hello.x = " + Hello.x);
 		System.out.println("num = " + hello.getId());
 		System.out.println("name = " + hello.getName());
 		System.out.println("Hello World");

@@ -65,20 +65,15 @@ public class Account {
 			System.out.println("먼저 로그인하세요!");
 			return;
 		}
+
 		while (true) {
 			System.out.print("\nCommand(+:입금, -:출금, q:종료) : ");
 			String cmd = scan.next();
 			scan.skip(".*");
 
 			switch (cmd) {
-				case "+" -> {
-					this.deposit();
-				}
-
-				case "-" -> {
-					this.withdraw();
-				}
-
+				case "+" -> this.deposit();
+				case "-" -> this.withdraw();
 				case "q" -> {
 					return;
 				}
@@ -95,6 +90,9 @@ public class Account {
 		this.display();
 	}
 
+}
+
+class T {
 	public static void main(String[] args) throws Exception {
 		Account acc = new Account(1111, "Hong", 0);
 
