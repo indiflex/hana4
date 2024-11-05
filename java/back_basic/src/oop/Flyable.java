@@ -17,4 +17,9 @@ public interface Flyable {
 	private void run() {
 		System.out.println("Flyable - Run!!");
 	}
+
+	interface Clickable {
+		public void onClick();
+	}
+
 }

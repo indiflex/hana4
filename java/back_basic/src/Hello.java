@@ -23,6 +23,7 @@ public class Hello {
 	public static void main(String[] args) {
 		Hello.x = 999;
 		Hello hello = new Hello();
+		Hello.II hii = hello.new II();
 		System.out.println("hello.x = " + Hello.x);
 		System.out.println("num = " + hello.getId());
 		System.out.println("name = " + hello.getName());
@@ -47,8 +48,15 @@ public class Hello {
 		System.arraycopy(nums1, 1, nums2, 0, 3);
 		System.out.println("num2=" + Arrays.toString(nums2));
 
-		Hi hi = new Hi();
+		Hello.Hi hi = new Hello.Hi();
 		hi.sayHi();
+
+	}
+
+	class II {
+		void ii() {
+			System.out.println("II");
+		}
 	}
 
 	static class Hi {

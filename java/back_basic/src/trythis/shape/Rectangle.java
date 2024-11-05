@@ -1,6 +1,6 @@
 package trythis.shape;
 
-public class Rectangle {
+public class Rectangle extends Shape implements Resizable {
 	private double length;
 	private double width;
 
@@ -35,6 +35,16 @@ public class Rectangle {
 
 	public double getPerimeter() {
 		return this.length * 2 + this.width * 2;
+	}
+
+	@Override
+	public void resize(int percent) {
+		setLength(this.length * (1.0 + (double)percent / 100));
+	}
+
+	@Override
+	double calArea() {
+		return getArea();
 	}
 
 	@Override
