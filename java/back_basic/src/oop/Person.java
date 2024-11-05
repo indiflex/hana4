@@ -3,7 +3,8 @@ package oop;
 import java.util.Objects;
 
 public class Person extends SuperPerson {
-	private String addr;
+	private double age;
+	private final String addr;
 
 	public Person() {
 		this("엄마의 아이", 1);
@@ -11,7 +12,7 @@ public class Person extends SuperPerson {
 	}
 
 	public Person(String name, int age) {
-		super(name, age);
+		this(name, age, "");
 		// super();
 		System.out.println("Person2");
 	}
@@ -21,8 +22,17 @@ public class Person extends SuperPerson {
 		this.addr = addr;
 	}
 
+	@Override
+	public int getAge() {
+		return (int)age;
+	}
+
 	public String getAddr() {
 		return this.addr;
+	}
+
+	public void walk() {
+		System.out.println("Walking!!");
 	}
 
 	@Override
@@ -37,6 +47,6 @@ public class Person extends SuperPerson {
 
 	@Override
 	public String toString() {
-		return "SuperPerson{ name='%s', age=%d, addr='%s'}".formatted(getName(), getAge(), getAddr());
+		return "Person{ name='%s', age=%d, addr='%s'}".formatted(getName(), getAge(), getAddr());
 	}
 }

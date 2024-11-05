@@ -46,5 +46,14 @@ public class Hello {
 		int[] nums2 = new int[3];
 		System.arraycopy(nums1, 1, nums2, 0, 3);
 		System.out.println("num2=" + Arrays.toString(nums2));
+
+		Hi hi = new Hi();
+		hi.sayHi();
+	}
+
+	static class Hi {
+		public void sayHi() {
+			System.out.println("Hi~!~!");
+		}
 	}
 }

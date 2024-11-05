@@ -1,12 +1,10 @@
 package trythis.shape;
 
-public class Circle {
+public class Circle implements GeomericObject {
 	private double radius;
-	private String color = "red";
 
 	public Circle(double radius) {
 		this.radius = radius;
-		this.color = "red";
 	}
 
 	public Circle() {
@@ -17,7 +15,7 @@ public class Circle {
 		return radius;
 	}
 
-	public void setRadius(double radius) {
+	protected void setRadius(double radius) {
 		this.radius = radius;
 	}
 
@@ -25,12 +23,13 @@ public class Circle {
 		return Math.PI * Math.pow(this.radius, 2);
 	}
 
-	public double getCircumference() {
+	public double getPerimeter() {
 		return Math.PI * this.radius * 2;
 	}
 
 	@Override
 	public String toString() {
-		return "Circle[radius=%s]의 둘레는 %.2f의 면적은 %.2f'".formatted(radius, this.getCircumference(), this.getArea());
+		return "Circle[radius=%s]의 둘레는 %.2f의 면적은 %.2f".formatted(getRadius(), this.getPerimeter(),
+			this.getArea());
 	}
 }

@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class SuperPerson {
 	private final String name;
-	private final int age;
+	protected final int age;
 
 	public SuperPerson(String name, int age) {
 		System.out.println("Super2");
@@ -19,12 +19,12 @@ public class SuperPerson {
 		System.out.println("Super1");
 	}
 
-	public String getName() {
-		return name;
-	}
-
 	public int getAge() {
 		return age;
+	}
+
+	public String getName() {
+		return this.name;
 	}
 
 	@Override
@@ -52,10 +52,24 @@ public class SuperPerson {
 	}
 
 	public static void main(String[] args) {
-		Person hong = new Person("Hong", 33);
-		System.out.println("hong = " + hong);
-		// Person kim = new Person("Kim", 30);
+		// Person hong = new Person("Hong", 33);
+		// System.out.println("hong = " + hong);
+		// SuperPerson kim = new Person("Kim", 30);
 		// System.out.println("kim = " + kim);
 		// System.out.println("age=" + kim.getAge());
+
+		SuperPerson ps = Math.random() > 0.5 ? new Student() : new Person();
+
+		if (ps instanceof Person) {
+			System.out.println("ps = " + ps.getClass().getSimpleName());
+			((Person)ps).walk();
+		} else {
+			System.out.println("ps = " + ps.getClass().getSimpleName());
+		}
+
+		if (ps instanceof Person psPerson) {
+			psPerson.walk();
+		}
+
 	}
 }
