@@ -52,20 +52,24 @@ public class Account {
 		return balance;
 	}
 
-	private void deposit() {
+	private void deposit() throws AmountMinusException {
 		System.out.print("입금할 금액은? ");
 		double amt = scan.nextDouble();
+		if (amt < 0) {
+			throw new AmountMinusException("Need plus number!!");
+		}
 		this.balance += amt;
 		System.out.printf("%.1f원이 입금되었습니다!\n", amt);
 		this.checkBalance();
 	}
 
-	private void withdraw() {
+	private void withdraw() throws NotEnoughException {
 		System.out.print("출금할 금액은? ");
 		double amt = scan.nextDouble();
 		if (this.balance < amt) {
-			System.out.println("\n잔액이 부족합니다!!");
-			return;
+			// System.out.println("\n잔액이 부족합니다!!");
+			// return;
+			throw new NotEnoughException();
 		}
 		this.balance -= amt;
 		System.out.printf("%.1f원이 출금되었습니다!\n", amt);
@@ -89,7 +93,7 @@ public class Account {
 		System.out.println(output);
 	}
 
-	public void transfer(Account[] accounts) {
+	public void transfer(Account[] accounts) throws NotEnoughException {
 		if (this.isNotValidScan()) {
 			return;
 		}
@@ -105,11 +109,12 @@ public class Account {
 
 	}
 
-	public double transferTo(Account another, double amount) {
+	public double transferTo(Account another, double amount) throws NotEnoughException {
 		System.out.printf("%s이 %s에게 %,.1f원 송금 시도!\n", this.getName(), another.getName(), amount);
 		if (this.balance < amount) {
-			System.out.println("잔액이 부족합니다!");
-			return 0;
+			// System.out.println("잔액이 부족합니다!");
+			// return 0;
+			throw new NotEnoughException();
 		}
 
 		this.balance -= amount;
@@ -151,14 +156,19 @@ public class Account {
 			String cmd = scan.next();
 			scan.skip(".*");
 
-			switch (cmd) {
-				case "+" -> this.deposit();
-				case "-" -> this.withdraw();
-				case "q" -> {
-					return;
+			try {
+				switch (cmd) {
+					case "+" -> this.deposit();
+					case "-" -> this.withdraw();
+					case "q" -> {
+						return;
+					}
+
+					default -> System.out.println("잘 못된 명령입니다!");
 				}
 
-				default -> System.out.println("잘 못된 명령입니다!");
+			} catch (NotEnoughException | AmountMinusException e) {
+				System.out.println("Error:" + e.getMessage());
 			}
 		}
 	}
@@ -203,9 +213,9 @@ class T {
 		workingAccount.transfer(accounts);
 		workingAccount.logout();
 
+		// Account acc = new Account(111, "Hong", 10000);
 		// acc.login();
 		// acc.action();
 		// acc.logout();
-
 	}
 }
