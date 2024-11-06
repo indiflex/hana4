@@ -1,6 +1,7 @@
 package trythis.shape;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.NoSuchElementException;
@@ -100,6 +101,12 @@ public class Figure<T extends Shape & Resizable> {
 		System.out.println(fmt.format(cal.getTime()));
 		cal.add(Calendar.DATE, -5);
 		System.out.println(fmt.format(cal.getTime()));
+
+		String[] strs1 = {"A", "B", "C"};
+		String[] strs2 = strs1.clone();
+		strs2[1] = "X";
+		System.out.println("strs1 = " + Arrays.toString(strs1));
+		System.out.println("strs2 = " + Arrays.toString(strs2));
 	}
 
 }
