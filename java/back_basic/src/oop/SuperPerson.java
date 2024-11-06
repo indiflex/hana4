@@ -42,6 +42,12 @@ public class SuperPerson {
 	@Override
 	public int hashCode() {
 		System.out.println("age=" + age);
+		try {
+			Class<?> person = Class.forName("Person");
+			System.out.println("person = " + person);
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException(e);
+		}
 		return Objects.hash(name, age);
 	}
 
