@@ -4,10 +4,10 @@ import java.util.Objects;
 
 public class SuperPerson {
 	private final String name;
-	protected final int age;
+	protected int age;
 
 	public SuperPerson(String name, int age) {
-		System.out.println("Super2");
+		System.out.println("Super2" + name + age);
 		this.name = name;
 		this.age = age;
 	}
@@ -16,7 +16,7 @@ public class SuperPerson {
 		// this("", 0);
 		this.name = "";
 		this.age = 0;
-		System.out.println("Super1");
+		// System.out.println("Super1");
 	}
 
 	public int getAge() {
@@ -36,6 +36,7 @@ public class SuperPerson {
 			return false;
 		}
 		SuperPerson person = (SuperPerson)obj;
+		System.out.println("person = " + person);
 		return age == person.getAge() && Objects.equals(name, person.getName());
 	}
 
@@ -46,7 +47,7 @@ public class SuperPerson {
 			Class<?> person = Class.forName("Person");
 			System.out.println("person = " + person);
 		} catch (ClassNotFoundException e) {
-			throw new RuntimeException(e);
+			// throw new RuntimeException(e);
 		}
 		return Objects.hash(name, age);
 	}

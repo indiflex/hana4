@@ -29,6 +29,11 @@ public class MyScanner {
 		return this.scanner.next();
 	}
 
+	public String scanLine(String message) {
+		System.out.print(message);
+		return this.scanner.nextLine();
+	}
+
 	public void close() {
 		this.scanner.close();
 	}

@@ -1,6 +1,7 @@
 package trythis.school;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class School {
@@ -65,8 +66,9 @@ public class School {
 		scores.removeAll(max);
 
 		int sum = 0;
-		for (int score : scores) {
-			sum += score;
+		Iterator<Integer> iterScores = scores.iterator();
+		while (iterScores.hasNext()) {
+			sum += iterScores.next();
 		}
 
 		System.out.printf("평균은 %.1f, 최고 점수는 %d 이다.%n", (sum / (double)scores.size()), maxScore);
