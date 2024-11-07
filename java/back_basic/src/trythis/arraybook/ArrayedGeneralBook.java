@@ -115,18 +115,22 @@ public class ArrayedGeneralBook implements GeneralBook {
 		return "";
 	}
 
+	private void swap(int a, int b) {
+		String tmpName = names[a];
+		String tmpRecord = records[a];
+		names[a] = names[b];
+		records[a] = records[b];
+		names[b] = tmpName;
+		records[b] = tmpRecord;
+	}
+
 	@Override
 	public void sort() {
 		int len = this.size();
 		for (int i = 0; i < len - 1; i++) {
 			for (int j = 0; j < len - 1; j++) {
 				if (names[j].compareTo(names[j + 1]) > 0) {
-					String tmpName = names[j];
-					String tmpRecord = records[j];
-					names[j] = names[j + 1];
-					records[j] = records[j + 1];
-					names[j + 1] = tmpName;
-					records[j + 1] = tmpRecord;
+					swap(j, j + 1);
 				}
 			}
 		}

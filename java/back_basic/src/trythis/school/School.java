@@ -27,39 +27,48 @@ public class School {
 		// max.add(Integer.MIN_VALUE);
 		max.add(0);
 
+		// Scanner scanner = new Scanner(System.in);
+		MyScanner scanner = new MyScanner();
+
 		// QQQ
-		int[] scoresToTest = {30, 50, 40, 80, 90, 99, 99, 30, -1};
-		for (int s : scoresToTest) {
-			scores.add(s);
-			if (s < 0) {
+		// int[] scoresToTest = {30, 50, 40, 80, 90, 99, 99, 30, -1};
+		while (true) {
+			int score = scanner.scanInt("점수를 입력하세요(-1: 종료): ");
+			if (score < 0) {
 				break;
 			}
+			scores.add(score);
 
-			if (s < min.get(0)) {
-				min.add(s);
+			if (score < min.get(0)) {
+				min.clear();
+				min.add(score);
 			}
-			if (s > max.get(0)) {
-				max.add(s);
+			if (score > max.get(0)) {
+				max.clear();
+				max.add(score);
 			}
+		}
+
+		System.out.println("학생들의 성적" + scores);
+
+		int maxScore = 0;
+		for (int i = 0; i < scores.size(); i++) {
+			int score = scores.get(i);
+			if (score > maxScore) {
+				maxScore = score;
+			}
+
+			System.out.printf("%d 학생의 성적은 %d이며 학점은 %s이다%n", (i + 1), score, getGrade(score));
 		}
 
 		scores.removeAll(min);
 		scores.removeAll(max);
 
-		System.out.println("학생들의 성적" + scores);
-
 		int sum = 0;
-		int maxScore = 0;
-		for (int i = 0; i < scores.size(); i++) {
-			int score = scores.get(i);
+		for (int score : scores) {
 			sum += score;
-			if (score > maxScore) {
-				maxScore = score;
-			}
-
-			System.out.printf("%d 학생의 성적은 %d이며 학점은 %s이다", (i + 1), score, getGrade(score));
 		}
 
-		System.out.printf("평균은 %.1f, 최고 점수는 %d 이다.", (sum / (double)scores.size()), maxScore);
+		System.out.printf("평균은 %.1f, 최고 점수는 %d 이다.%n", (sum / (double)scores.size()), maxScore);
 	}
 }
