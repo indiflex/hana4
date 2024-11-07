@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class School {
+	public static final int STUDENT_COUNT = 10;
+
 	private static String getGrade(Integer score) {
 		String grade = "F";
 		switch (score / 10) {
@@ -15,8 +17,6 @@ public class School {
 
 		return grade;
 	}
-
-	public static final int STUDENT_COUNT = 10;
 
 	public static void main(String[] args) {
 		List<Integer> scores = new ArrayList<>(STUDENT_COUNT);
