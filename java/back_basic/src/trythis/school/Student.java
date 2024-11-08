@@ -45,7 +45,7 @@ public class Student {
 	public static void main(String[] args) {
 		Map<String, Student> map = new HashMap<>();
 		MyScanner scanner = new MyScanner();
-		System.out.println("이름 아이디 전화번호 순으로 입력하세요!\n");
+		System.out.println("이름 아이디 전화번호 순으로 입력하세요!");
 		while (true) {
 			StringTokenizer tokenizer = new StringTokenizer(scanner.scanLine(""), " ");
 			if (tokenizer.countTokens() == 0) {
@@ -56,7 +56,15 @@ public class Student {
 			map.put(student.getName(), student);
 
 		}
+
 		System.out.println("등록된 학생 수 = " + map.size());
+
+		// Set<Map.Entry<String, Student>> entries = map.entrySet();
+		// System.out.println("entries = " + entries);
+		// for (Map.Entry<String, Student> entry : entries) {
+		// 	System.out.println("name = " + entry.getKey() + ", " + entry.getValue());
+		// }
+
 		for (String name : map.keySet()) {
 			System.out.println(map.get(name).toString());
 		}
