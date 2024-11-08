@@ -1,24 +1,56 @@
 package trythis.school;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class School {
+	private static final boolean isDeg = true;
 	public static final int STUDENT_COUNT = 10;
 
-	private static String getGrade(Integer score) {
-		String grade = "F";
-		switch (score / 10) {
-			case 10, 9 -> grade = "A";
-			case 8 -> grade = "B";
-			case 7 -> grade = "C";
-			case 6 -> grade = "D";
-		}
+	public List<Student> students = new ArrayList<>();
 
-		return grade;
+	public School() {
+		if (isDeg) {
+			for (int i = 1; i <= 5; i++) {
+				int score = (int)(Math.random() * 10 * 10);
+				students.add(new Student("Hong" + i, i % 2 == 0 ? i * 10 : i, score));
+			}
+
+			Collections.shuffle(students);
+		}
+	}
+
+	public void printStudents() {
+		System.out.println("-------------------");
+		for (Student student : students) {
+			System.out.println(student);
+		}
+		System.out.println("-------------------");
+
 	}
 
 	public static void main(String[] args) {
+		School school = new School();
+		school.printStudents();
+		Collections.sort(school.students);
+		school.printStudents();
+		school.students.sort(new Comparator<Student>() {
+			@Override
+			public int compare(Student o1, Student o2) {
+				return o1.getName().compareTo(o2.getName());
+			}
+		});
+		school.printStudents();
+
+		school.students.sort((a, b) -> a.getScore() - b.getScore());
+		school.printStudents();
+
+		school.students.stream().filter(s -> s.getScore() > 80).forEach(System.out::print);
+	}
+
+	public static void main2(String[] args) {
 		List<Integer> scores = new ArrayList<>(STUDENT_COUNT);
 		List<Integer> min = new ArrayList<>();
 		// min.add(Integer.MAX_VALUE);
@@ -70,5 +102,17 @@ public class School {
 		}
 
 		System.out.printf("평균은 %.1f, 최고 점수는 %d 이다.%n", (sum / (double)scores.size()), maxScore);
+	}
+
+	private static String getGrade(Integer score) {
+		String grade = "F";
+		switch (score / 10) {
+			case 10, 9 -> grade = "A";
+			case 8 -> grade = "B";
+			case 7 -> grade = "C";
+			case 6 -> grade = "D";
+		}
+
+		return grade;
 	}
 }
