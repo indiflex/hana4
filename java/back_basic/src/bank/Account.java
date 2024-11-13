@@ -27,57 +27,79 @@ public class Account {
 		accounts.add(this);
 	}
 
-	private void setTransferTargetAccount(Account account) {
+	protected void setTransferTargetAccount(Account account) {
 		try {
-			int amount = scanInt("%s에 보낼 금액은?", 2);
-			account.withdraw(amount);
+			int amount = scanInt("%s에 보낼 금액은? ".formatted(account.accountName), 2);
+			this.withdraw(amount);
+
+			account.deposit(amount, false, this);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
+	protected void selectTransferTargetAccount() throws Exception {
+		selectTransferTargetAccount(null);
+	}
+
+	protected void selectTransferTargetAccount(Transferable transfer) throws Exception {
+		int accId = scanInt("어디로 보낼까요? %s ".formatted(exceptMe()), 2);
+		Account account = accounts.stream()
+			.filter(a -> a.getAccountId() == accId)
+			.findFirst().orElse(null);
+		// .ifPresent(this::setTransferTargetAccount);
+
+		if (account == null) {
+			System.out.println("계좌를 정확히 선택해주세요!");
+			selectTransferTargetAccount(transfer);
+		} else {
+			if (transfer == null) {
+				setTransferTargetAccount(account);
+			} else {
+				transfer.transfer(account);
+			}
+		}
+	}
+
 	public void transfer() throws TransferNotSupportedException {
 		try {
-			((Transferable)this).transfer();
+			((Transferable)this).transfer(null);
 		} catch (ClassCastException e) {
 			throw new TransferNotSupportedException();
 		}
 	}
 
-	public void withdraw() {
+	public void withdraw() throws WithdrawNotSupportedException {
 		this.withdraw(-1);
 	}
 
-	public void withdraw(int amount) {
-		try {
-			if (amount == -1) {
-				amount = scanInt("출금하실 금액은?", 2);
-				if (amount > balance) {
-					throw new InsufficentException();
-				}
-			}
-
-			balance -= amount;
-			System.out.printf("%s 통장에서 %,d원이 출금되었습니다.", accountName, amount);
-			System.out.printf("%s 통장의 잔액은 %,d원입니다.", accountName, balance);
-
-		} catch (InterruptedException e) {
-			System.out.printf("잔액이 부족합니다!(잔액: %,d)%n", balance);
-			withdraw();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			withdraw();
+	public void withdraw(int amount) throws WithdrawNotSupportedException {
+		if (this instanceof Withdrawable) {
+			withdraw(amount);
+		} else {
+			throw new WithdrawNotSupportedException();
 		}
 	}
 
 	public void deposit() {
 		try {
-			int amount = scanInt("입금하실 금액은?", 2);
-			balance += amount;
-			System.out.printf("%s 통장에서 %,d원이 입금되었습니다.", accountName, amount);
+			int amount = scanInt("입금하실 금액은? ", 2);
+			this.deposit(amount, false);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			deposit();
+		}
+	}
+
+	public void deposit(int amount, boolean isHideMenu) {
+		deposit(amount, isHideMenu, this);
+	}
+
+	public void deposit(int amount, boolean isHideMenu, Account account) {
+		balance += amount;
+		System.out.printf("%s 통장에 %,d원이 입금되었습니다.%n", accountName, amount);
+		if (!isHideMenu) {
+			account.choiceMenu();
 		}
 	}
 
@@ -90,17 +112,28 @@ public class Account {
 	}
 
 	protected void printInfo(String balanceMsg) {
-		System.out.printf("%s (계좌번호: %d, %s: %d, 예금주: %s)%n", accountName, accountId, balanceMsg, balance, owner);
+		System.out.printf("%s (계좌번호: %d, %s: %,d, 예금주: %s)%n", accountName, accountId, balanceMsg, balance, owner);
 	}
 
-	public void startMenu() throws Exception {
+	public void startMenu() {
 		String msg = "통장을 선택하세요 %s ".formatted(accounts);
-		int accId = scanInt(msg, 0);
-		accounts.stream().filter(a -> a.getAccountId() == accId).findFirst().ifPresent(this::setCurrentAccount);
+		try {
+			int accId = scanInt(msg, 0);
+			// accounts.stream().filter(a -> a.getAccountId() == accId).findFirst().ifPresent(this::setCurrentAccount);
+			Account account = accounts.stream().filter(a -> a.getAccountId() == accId).findFirst().orElse(null);
+			if (account == null) {
+				throw new AccountException("업는 계좌 번호");
+			} else {
+				account.printInfo();
+			}
+		} catch (Exception e) {
+			System.out.println("계좌번호를 정확히 입력하세요!");
+			startMenu();
+		}
 	}
 
 	public void choiceMenu() {
-		this.choiceMenu("원하시는 업무는?", "입금");
+		this.choiceMenu("원하시는 업무는? ", "입금");
 	}
 
 	public void choiceMenu(String preMsg, String plusMsg) {

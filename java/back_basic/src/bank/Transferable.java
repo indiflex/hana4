@@ -1,5 +1,5 @@
 package bank;
 
 public interface Transferable {
-	public void transfer();
+	public void transfer(Account account) throws TransferNotSupportedException;
 }

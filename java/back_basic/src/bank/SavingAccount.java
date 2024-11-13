@@ -9,6 +9,43 @@ public class SavingAccount extends Account {
 	}
 
 	@Override
+	public void deposit() {
+		try {
+			int month = scanInt("예치 개월 수를 입력하세요 ", 2);
+			if (month < 1) {
+				throw new AccountException("최소 1개월 이상 입력하세요!");
+			}
+			double rate = findRate(month);
+			String yn = scan("%d개월(적용금리 %.1f%%)로 만기처리하시겠어요? (y/n) ".formatted(month, rate), 3);
+			if (yn.equalsIgnoreCase("Y")) {
+				Transferable transfer = (Account account) -> {
+					account.deposit(balance, true);
+					balance = 0;
+				};
+				super.selectTransferTargetAccount(transfer);
+				accounts.remove(this);
+				System.out.println("정기예금 통장은 해지되었습니다.");
+				startMenu();
+			} else {
+				choiceMenu();
+			}
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			deposit();
+		}
+	}
+
+	private double findRate(int month) {
+		for (int i = RATES.length - 1; i >= 0; i--) {
+			if (month >= MONS[i]) {
+				return Double.parseDouble(RATES[i]);
+			}
+		}
+		return 0;
+	}
+
+	@Override
 	public void choiceMenu() {
 		super.choiceMenu("계좌가 만기되었습니다.", "만기처리");
 	}
@@ -19,5 +56,6 @@ public class SavingAccount extends Account {
 		for (int i = 0; i < RATES.length; i++) {
 			System.out.printf("\t%d개월 이상: %s%%\n", MONS[i], RATES[i]);
 		}
+		choiceMenu();
 	}
 }

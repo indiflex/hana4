@@ -1,5 +1,5 @@
 package bank;
 
 public interface Withdrawable {
-	public void withdraw();
+	public void withdraw() throws WithdrawNotSupportedException;
 }
