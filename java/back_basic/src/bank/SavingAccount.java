@@ -18,6 +18,7 @@ public class SavingAccount extends Account {
 			double rate = findRate(month);
 			String yn = scan("%d개월(적용금리 %.1f%%)로 만기처리하시겠어요? (y/n) ".formatted(month, rate), 3);
 			if (yn.equalsIgnoreCase("Y")) {
+				balance = balance + balance * (int)(rate / 100);
 				Transferable transfer = (Account account) -> {
 					account.deposit(balance, true);
 					balance = 0;
