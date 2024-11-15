@@ -51,7 +51,7 @@ create table Subject (
   prof smallint unsigned null comment '담당교수',
   Primary Key (id),
   Constraint Foreign Key fk_Subject_prof_Prof (prof)
-                 References Prof(id) on Delete set null on Update cascade
+             References Prof(id) on Delete set null on Update cascade
 );
 
 alter table Subject add constraint unique key uniq_Subject_name(name);
@@ -62,5 +62,14 @@ create table Enroll (
   id int unsigned not null auto_increment comment '수강신청번호',
   createdate timestamp DEFAULT CURRENT_TIMESTAMP COMMENT '신청일시',
   updatedate timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정일시',
-  
+  subject smallint unsigned not null comment '과목번호',
+  student mediumint unsigned not null comment '학번',
+  Primary Key (id),
+  Constraint Foreign Key fk_Enroll_subject_Subject(subject)
+             References Subject(id) on Delete cascade on Update cascade,
+  Constraint Foreign Key fk_Enroll_student_Student(student)
+             References Student(id) on Delete cascade on Update cascade
 );
+-- Error Code: 3780. Referencing column 'student' and referenced column 'id' in foreign key constraint 'enroll_ibfk_2' are incompatible.
+
+-- drop table Enroll;
