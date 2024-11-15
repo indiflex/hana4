@@ -6,6 +6,21 @@ select * from Emp;
 desc Emp;
 select * from Dept;
 
+select *
+  from Emp e inner join Dept d on e.dept = d.id
+ where e.dept in (3,4);
+ 
+-- select d.id as dept, d.dname, e.id, e.ename, d.captain from 
+update Emp e inner join Dept d on e.dept = d.id
+  set d.captain = e.id
+ where e.dept = 3 and e.ename = '김나라';
+ 
+select dept, min(ename) from Emp group by dept;
+
+select * from Dept;
+select e.*, d.dname, d.captain
+  from Emp e inner join Dept d on e.dept = d.id and e.id = d.captain;
+
 alter table Emp add column auth tinyint(1) not null default 9 
        comment '권한(0:sys, 1:super, …, 9:guest)' after dept;
        
