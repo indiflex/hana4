@@ -247,3 +247,9 @@ update Dept d
 select * from Dept;
 select d.*, e.dept, e.ename from Dept d inner join Emp e on d.captain = e.id;
 
+select dept, avg(salary) avgsal, max(salary) maxsal from Emp
+ group by dept having avgsal > (select avg(salary) from Emp);
+ 
+select e.*, d.dname
+  from Emp e inner join Dept d on e.dept = d.id;
+  
