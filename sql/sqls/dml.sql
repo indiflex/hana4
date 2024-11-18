@@ -25,6 +25,15 @@ insert into Student(name, birthdt, major, mobile, email)
 insert into Student(name, birthdt, major, mobile, email)
              values('Kim', '980302', 5, '010-2323-7878', 'kim@gmail.com');
              
+-- 0 row affected
+insert ignore into Student(name, birthdt, major, mobile, email)
+             values('Kim2', '980305', 4, '010-2323-7879', 'kim@gmail.com');
+             
+-- 2 row(s) affected             
+insert into Student(name, birthdt, major, mobile, email)
+             values('Kim', '980302', 5, '010-2323-7878', 'kim@gmail.com')
+    on duplicate key update name='Kim2';
+             
 insert into Student(name, birthdt, major, mobile, email)
              values('Lee', '980302', 5, '010-2323-7878', 'lee@gmail.com');
              
@@ -77,5 +86,116 @@ select * from Student s right outer join Major m on s.major = m.id;
 
 select * from Student inner join Major on Student.major = Major.id where Student.id >= 2;
 
+-- insert ignore
+select * from Student;
+select * from Major;
+select s.*, m.name
+ from Student s inner join Major m on s.major = m.id;
+
+desc Student;
+show index from Student;
+
+select * from Prof;
+desc Prof;
+insert into Prof(name) values('김교수');
+insert into Prof(name) values('박교수');
+insert into Prof(name) values('최교수');
+insert into Prof(name) values('홍교수');
+
+select * from Subject;
+insert into Subject(name, prof)
+ select concat(p.name, '과목'), p.id from Prof p;
+
+desc Subject;
+show index from Subject;
+
+select * from Enroll;
+desc Enroll;
+
+insert into Enroll(subject, student) values (1, 1), (2, 2), (3, 5), (4, 6);
+
+select * from Student; -- 1,2,5,6
+
+-- 수강신청한 과목 명도 함께 출력
+select e.*, sub.name as subjectName
+  from Enroll e inner join Subject sub on e.subject = sub.id;
+  
+-- 수강신청한 과목 명과 학생 명도 함께 출력
+select e.*, sub.name as subjectName, stu.name as studentName
+  from Enroll e inner join Subject sub on e.subject = sub.id
+                inner join Student stu on e.student = stu.id;
+  
+-- 수강신청한 학생의 과까지 출력
+select e.*, sub.name as subjectName, stu.name as studentName,
+       m.name as studentMajor
+  from Enroll e inner join Subject sub on e.subject = sub.id
+                inner join Student stu on e.student = stu.id
+                left outer join Major m on stu.major = m.id;
+
+show processlist;
+
+select * from Student where major is null;
+select * from Student where major = (select max(major) from Student);
+select * from Student where (select max(major) from Student) = major;
+
+-- bad
+select *, (select name from Major where id = Student.major) 
+  from Student;
+  
+-- good
+select s.*, m.name from Student s left join Major m on s.major = m.id;
+
+-- bad
+select s.*, sub.name
+  from Student s inner join (select * from Major where id <= 3) sub
+        on s.major = sub.id;
+
+-- not bad
+select s.*, m.name
+  from Student s inner join Major m on s.major = m.id and m.id <= 3;
+        
+-- good
+select s.*, m.name
+  from Student s inner join Major m on s.major = m.id
+ where m.id <= 3;
+
 -- 평균 급여보다 높은 부서명과 그 부서의 최고 연봉자 구하기
-having avg(sal) > (select avg(sal) from ...
+select * from Emp;
+select avg(salary) from Emp;
+select dept, avg(salary) from Emp group by dept;
+
+select dept, avg(salary) avgsal, max(salary), max(ename) from Emp
+ group by dept having avg(salary) > (select avg(salary) from Emp);
+ 
+select sub.* 
+from (select dept, avg(salary) avgsal, max(salary) maxsal from Emp
+       group by dept having avg(salary) > (select avg(salary) from Emp)) sub;
+
+select * from Emp
+-- update Emp set salary = 800
+ where dept = 2 and salary= 900;       
+
+-- not bad
+select sub.*, e.*
+  from Emp e inner join (select dept, avg(salary) avgsal, max(salary) maxsal from Emp
+                          group by dept having avgsal > (select avg(salary) from Emp)) sub
+             on e.dept = sub.dept and e.salary = sub.maxsal
+ order by e.dept, e.ename;
+ 
+select e.*, sub.salary as avgsal, sub.maxsal
+  from Emp e inner join (select avg(salary) salary, max(salary) maxsal from Emp) sub
+             on e.salary = sub.maxsal
+ order by e.dept, e.id;
+ 
+-- not bad
+select e.*, sub.avgsal, sub.maxsal
+  from (select avg(salary) avgsal, max(salary) maxsal from Emp) sub
+    inner join (select dept, avg(salary) avgsal, max(salary) maxsal from Emp group by dept) grp
+            on sub.avgsal < grp.avgsal
+    inner join Emp e on grp.dept = e.dept and e.salary = grp.maxsal
+ order by e.dept, e.id;
+
+-- good
+
+
+-- having avg(sal) > (select avg(sal) from ...
