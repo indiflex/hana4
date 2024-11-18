@@ -31,7 +31,6 @@ insert into Student(name, birthdt, major, mobile, email)
 insert into Student(name, birthdt, major, mobile, email)
              values('Choi', '970302', null, '010-2323-9898', 'choi@gmail.com');
 
-             
 select * from Student where name = 'Kim';
 select * from Student where gender = 0;
 select * from Student where birthdt like '98%';
@@ -78,4 +77,5 @@ select * from Student s right outer join Major m on s.major = m.id;
 
 select * from Student inner join Major on Student.major = Major.id where Student.id >= 2;
 
-
+-- 평균 급여보다 높은 부서명과 그 부서의 최고 연봉자 구하기
+having avg(sal) > (select avg(sal) from ...
