@@ -49,5 +49,19 @@ show index from Emp;
 select last_insert_id();
 insert into Dept(pid, dname) values(2, '퍼블리셔팀');
 
-select * from Student;
-desc Student;
+alter table Emp add column outdt date null comment '퇴사일';
+
+select *, curdate(), curtime(), now() from Emp where id in (3, 5, 10, 14, 26);
+
+update Emp set outdt = '2024-04-25' where id in (3,5);
+
+update Emp set outdt = curdate() where id in (14,26);
+
+select * from Dept d inner join Emp e on d.captain = e.id;
+
+update Dept d inner join Emp e on d.captain = e.id
+   set d.captain = null
+ where e.outdt is not null;
+ 
+-- 확인
+select * from Dept d left join Emp e on d.captain = e.id;

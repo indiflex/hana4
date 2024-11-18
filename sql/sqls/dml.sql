@@ -214,3 +214,36 @@ select sub.*, e.*
              on e.dept = sub.dept and e.salary = sub.maxsal
  order by e.dept, e.ename;
 
+-- ex) min(ename) -> captain
+update Dept set captain = null where id > 0;
+
+-- 1. 부서별 이름이 가장 빠른 직원 
+select dept, min(ename), min(id) from Emp group by dept;
+
+select * from Emp where ename in (select min(ename) from Emp group by dept);
+show index from Emp;
+
+select * from Emp where dept = 1 and ename = '김나나';
+
+-- best
+select e1.*, e2.id
+  from Emp e1 left join Emp e2 on e1.dept = e2.dept and e1.ename > e2.ename
+ where e2.id is null;
+ 
+-- 위 직원을 captain으로!
+-- select d.*, e.* from Dept d
+-- 
+update Dept d 
+   inner join
+      (select e1.dept, e1.id
+         from Emp e1 left join Emp e2
+                     on e1.dept = e2.dept and e1.ename > e2.ename
+        where e2.id is null) e
+   on d.id = e.dept
+  set d.captain = e.id
+ where d.id > 0;
+   
+-- 결과 확인
+select * from Dept;
+select d.*, e.dept, e.ename from Dept d inner join Emp e on d.captain = e.id;
+
