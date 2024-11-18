@@ -186,7 +186,7 @@ select e.*, sub.salary as avgsal, sub.maxsal
   from Emp e inner join (select avg(salary) salary, max(salary) maxsal from Emp) sub
              on e.salary = sub.maxsal
  order by e.dept, e.id;
- 
+  
 -- not bad
 select e.*, sub.avgsal, sub.maxsal
   from (select avg(salary) avgsal, max(salary) maxsal from Emp) sub
@@ -195,7 +195,22 @@ select e.*, sub.avgsal, sub.maxsal
     inner join Emp e on grp.dept = e.dept and e.salary = grp.maxsal
  order by e.dept, e.id;
 
--- good
+-- good 
+select e1.*, e2.id, e2.ename
+  from Emp e1 left join Emp e2 on e1.dept = e2.dept and e1.salary < e2.salary
+ where e2.id is null
+ order by e1.dept;
 
+select e1.*, e2.id, e2.ename
+  from Emp e1 left join Emp e2 on e1.dept = e2.dept and e1.salary < e2.salary
+ where e2.id is null 
+   and e1.dept in (select dept from Emp 
+                    group by dept having avg(salary) > (select avg(salary) from Emp))
+ order by e1.dept;
+ 
+select sub.*, e.*
+  from Emp e inner join (select dept, avg(salary) avgsal, max(salary) maxsal from Emp
+                          group by dept having avgsal > (select avg(salary) from Emp)) sub
+             on e.dept = sub.dept and e.salary = sub.maxsal
+ order by e.dept, e.ename;
 
--- having avg(sal) > (select avg(sal) from ...
