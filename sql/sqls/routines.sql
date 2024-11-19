@@ -95,4 +95,25 @@ call sp_student_bulk_insert(5);
 insert into Student(name, birthdt, major, mobile, email)
   values('Leey', '871212', 2, '010-9999-8888', 'leey@gmail.com');
   
-call sp_deptinfo('영업부');
+call sp_deptinfo('영부');
+
+call sp_cnt('Emp');
+
+desc Dept;
+select id, dname, captain from Dept;
+select * from Emp where id = 30;
+call sp_deptsalary();
+
+
+
+
+show global variables like '%max_execution_time%';
+WITH RECURSIVE CteDept(id, pid, pname, dname, dx, h) AS 
+(
+    select id, pid, cast('' as char(31)), dname, 0, cast(id as char(10)) from Dept
+     where pid = 0
+    UNION ALL
+    select d.id, d.pid, cte.dname, d.dname, dx + 1, concat(cte.h, '-', d.id)
+      from Dept d inner join CteDept cte on d.pid = cte.id
+)
+select /*+ SET_VAR(cte_max_recursion_depth = 5) */ dx, dname, h from CteDept order by h;
