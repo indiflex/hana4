@@ -73,10 +73,11 @@ desc Emp;
 desc Dept;
 desc Major;
 
+select * from v_emp_dept;
+
 select *, f_empinfo(id) from Emp;
 
 select f_empinfo(1000);
-
 
 select * from Emp where id between 15 and 10;
 
@@ -93,3 +94,5 @@ call sp_student_bulk_insert(5);
 
 insert into Student(name, birthdt, major, mobile, email)
   values('Leey', '871212', 2, '010-9999-8888', 'leey@gmail.com');
+  
+call sp_deptinfo('영업부');
