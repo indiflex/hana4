@@ -66,6 +66,30 @@ select * from Subject;
 update Subject set prof=3 where id = 3;
 update Subject set prof=null where id = 3;
 
+select (@rownum = @rownum + 1) rownum, s.*
+ from Subject s, (select @rownum = 0) rn;
+ 
+desc Emp;
+desc Dept;
+desc Major;
 
-select (@rownum := @rownum + 1) rownum, s.*
- from Subject s, (select @rownum := 0) rn;
+select *, f_empinfo(id) from Emp;
+
+select f_empinfo(1000);
+
+
+select * from Emp where id between 15 and 10;
+
+call sp_emprange(15, 10);
+call sp_emprange(-1, -5);
+
+show procedure status where db='testdb';
+show function status;
+
+select * from Student;
+select max(id) + 1 from Student;
+
+call sp_student_bulk_insert(5);
+
+insert into Student(name, birthdt, major, mobile, email)
+  values('Leey', '871212', 2, '010-9999-8888', 'leey@gmail.com');
