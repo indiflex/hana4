@@ -49,12 +49,34 @@ update Emp set remark = '{"id": 3, "age": 33, "fam": [{"id": 1, "name": "유세�
 
 update Emp set remark = '{"id": 4, "age": 34, "fam": [{"id": 1, "name": "유세차"}]}'
  where id = 4;
+
+update Emp set remark = json_object('id', 5, 'age', 44, 
+                          'fam', json_array(
+                              json_object('id', 1, 'name', '지세차'),
+                              json_object('id', 2, 'name', '지세창')
+                          ))
+ where id = 5;
  
+select id, ename, remark->'$.age', remark->'$.fam' as family,
+    json_pretty(remark), 
+    json_unquote(remark->'$.fam[0].name'),
+    remark->>'$.fam[0].name'
+  from Emp where id <= 5;
+  
+select json_valid('{"id":1}');
+
+select * from Emp where remark->'$.age' > 30;
+select * from Emp where json_contains(remark, '44', '$.age');
+update Emp set remark = json_set(remark, '$.age', 39) where id = 3;
+update Emp set remark = json_insert(remark, '$.addr', 'Seoul') where id = 3;
+
+update Emp set remark = json_remove(remark, '$.fam[1]') where id = 3;
+
+select id, remark, json_keys(remark), json_type(remark->'$.fam[0].name')
+  from Emp where remark is not null;
  
- 
- 
- 
- 
+select remark, json_search(remark, 'all', '유세차')
+  from Emp where remark is not null;
  
  
  
