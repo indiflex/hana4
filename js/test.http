@@ -1,0 +1,22 @@
+@host=http://localhost:3500
+
+### get - hello
+GET {{host}}/hello/20?q=abc
+
+### users - get
+GET {{host}}/users
+
+### users - post
+POST {{host}}/users
+Content-Type: application/json
+
+{"name": "LEE"}
+
+### users - patch
+PATCH {{host}}/users/2
+Content-Type: application/json
+
+{"name": "KIM222"}
+
+### users - delete
+DELETE {{host}}/users/2

@@ -17,6 +17,7 @@
   "author": "Jade",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.21.1",
     "jtlab": "^0.0.14",
     "moment": "^2.30.1"
   }
