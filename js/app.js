@@ -24,7 +24,7 @@ app.post('/users', (req, res) => {
   const { name } = req.body;
   const id = Math.max(...USERS.map(({ id }) => id)) + 1;
   USERS.push({ id, name });
-  res.status(200).send({ id });
+  res.status(200).send({ id, message: 'OK' });
 });
 
 app.patch('/users/:userId', (req, res) => {
