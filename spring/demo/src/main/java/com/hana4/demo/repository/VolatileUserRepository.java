@@ -13,6 +13,16 @@ public class VolatileUserRepository implements UserRepository {
 
 	final Map<Long, User> users = new HashMap<>();
 
+	public VolatileUserRepository() {
+		initialize();
+	}
+
+	public void initialize() {
+		users.clear();
+		User user = new User(1L, "Kim");
+		users.put(user.getId(), user);
+	}
+
 	@Override
 	public List<User> findAll() {
 		return new ArrayList<>(users.values());
@@ -31,7 +41,7 @@ public class VolatileUserRepository implements UserRepository {
 	@Override
 	public User saveUser(User user) {
 		users.put(user.getId(), user);
-		return user;
+		return users.get(user.getId());
 	}
 
 	@Override

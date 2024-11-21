@@ -12,4 +12,5 @@ public interface UserRepository {
 	User deleteUser(Long id);
 	Optional<User> findById(Long id);
 	Optional<User> findByName(String name);
+	void initialize();
 }
