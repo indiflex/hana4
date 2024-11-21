@@ -19,7 +19,7 @@ public class Hello {
 	@ResponseBody
 	public Dog hi(@RequestParam("name") String name) {
 		Dog maxx = new Dog(name);
-		System.out.println("maxx = " + maxx);
+		System.out.println("Dog.name = " + maxx);
 		return maxx;
 	}
 
