@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,16 +37,29 @@ public class UserController {
 		return service.getList();
 	}
 
+	@GetMapping("/list")
+	public String userList(Model model) {
+		model.addAttribute("users", service.getList());
+		return "user/list";
+	}
+
 	@PostMapping("")
 	@ResponseBody
 	public User regist(@RequestBody User user) throws BadRequestException {
-		System.out.println("user = " + user);
 		Long newerId = service.regist(user);
 		Optional<User> newer = service.getUser(newerId);
-		if (newer.isPresent())
+		if (newer.isPresent()) {
 			return newer.get();
-		else
+		} else {
 			throw new BadRequestException("InsertError");
+		}
+	}
+
+	@PostMapping("/add")
+	public String registAdd(User user) {
+		System.out.println("user = " + user);
+		service.regist(user);
+		return "redirect:/users/list";
 	}
 
 	@GetMapping("/{id}")
