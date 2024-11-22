@@ -1,7 +1,9 @@
 package com.hana4.demo.controller;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,8 +30,13 @@ public class UserController {
 
 	@PostMapping("/users")
 	@ResponseBody
-	public User regist(@RequestBody User user) {
+	public User regist(@RequestBody User user) throws BadRequestException {
 		System.out.println("user = " + user);
-		return user;
+		Long newerId = service.regist(user);
+		Optional<User> newer = service.getUser(newerId);
+		if (newer.isPresent())
+			return newer.get();
+		else
+			throw new BadRequestException("InsertError");
 	}
 }
