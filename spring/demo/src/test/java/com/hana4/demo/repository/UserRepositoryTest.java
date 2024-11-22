@@ -1,7 +1,7 @@
 package com.hana4.demo.repository;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +28,10 @@ public class UserRepositoryTest {
 		assertEquals(2, newerId);
 
 		Optional<User> newer = repository.findById(newerId);
-		newer.ifPresent(a -> assertThat(a).isEqualTo(user));
+		assertThat(newer.isPresent()).isTrue();
+		// newer.ifPresent(a -> assertThat(a).isEqualTo(user));
+		assertThat(newer.get()).isEqualTo(user);
+		assertThat(newer.get()).usingRecursiveComparison().isEqualTo(new User(newerId, "Hong"));
 
 		final List<User> allUsers = repository.findAll();
 		assertThat(allUsers.size()).isGreaterThan(1);
