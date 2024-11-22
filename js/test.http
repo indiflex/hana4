@@ -1,4 +1,5 @@
-@host=http://localhost:3500
+# @host=http://localhost:3500
+@host=http://localhost:8080
 
 ### get - hello
 GET {{host}}/hello/20?q=abc
@@ -7,7 +8,13 @@ GET {{host}}/hello/20?q=abc
 GET {{host}}/users
 
 ### users - post
-POST {{host}}/users
+POST {{host}}/usersx
+Content-Type: application/json
+
+{"id": 99, "name": "LEE"}
+
+### users - post
+POST {{host}}/usersx
 Content-Type: application/json
 
 {"name": "LEE"}
