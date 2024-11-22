@@ -30,4 +30,12 @@ public class UserService {
 	public Optional<User> getUser(Long id) {
 		return repository.findById(id);
 	}
+
+	public User updateUser(User user) {
+		return repository.saveUser(user);
+	}
+
+	public User deleteUser(Long id) {
+		return repository.deleteUser(id);
+	}
 }
