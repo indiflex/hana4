@@ -26,7 +26,11 @@
     <ul class="border p-3 w-96">
         <c:forEach var="cust" items="${custs}" varStatus="status">
             <li class='<c:if test="${status.first}">XXX</c:if> <c:if test="${status.last}">ZZZ</c:if>'>
-                <a href="/modify/${cust.id}" class="hover:text-blue-800">${status.count} - ${cust.id}. ${cust.name}</a>
+                <a href="/modify/${cust.id}" class="hover:text-blue-800">${status.count} - ${cust.id}. ${cust.name}
+                    <small class="text-xs text-gray-500">${cust.tel}</small>
+                </a>
+
+                <a href="/remove/${cust.id}" class="hover:text-blue-700 float-right">Remove</a>
             </li>
         </c:forEach>
         <c:if test="${custs.size() == 0}">

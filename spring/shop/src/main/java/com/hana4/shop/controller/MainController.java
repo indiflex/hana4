@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +19,6 @@ public class MainController {
 
 	private final MainService service;
 
-	@Autowired
 	public MainController(MainService service) {
 		this.service = service;
 	}
@@ -62,4 +60,15 @@ public class MainController {
 		return "modify";
 	}
 
+	@PostMapping("/modify/{id}")
+	public String update(@PathVariable("id") Integer id, CustDTO cust) {
+		service.modify(cust);
+		return "redirect:/";
+	}
+
+	@GetMapping("/remove/{id}")
+	public String remove(@PathVariable("id") Integer id, Model model) {
+		service.remove(id);
+		return "redirect:/";
+	}
 }
