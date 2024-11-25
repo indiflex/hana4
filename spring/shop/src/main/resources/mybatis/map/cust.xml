@@ -7,7 +7,7 @@
         from Cust
     </select>
 
-    <select id="getCust" resultType="CustDTO" parameterType="Integer">
+    <select id="getCust" resultType="CustDTO" parameterType="Integer" statementType="PREPARED">
         select id, name, tel from Cust where id = #{id}
     </select>
 </mapper>

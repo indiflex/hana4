@@ -16,7 +16,6 @@ import com.hana4.shop.service.MainService;
 
 @Controller
 public class MainController {
-
 	private final MainService service;
 
 	public MainController(MainService service) {
