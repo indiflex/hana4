@@ -14,10 +14,12 @@
 <body>
 <h1>Shop Main</h1>
 <h3>${version}</h3>
+
 <ul>
-    <c:forEach items="${keys}" var="k">
-        <li>${k}</li>
+    <c:forEach var="cust" items="${custs}">
+        <li>${cust.id}. ${cust.name}</li>
     </c:forEach>
 </ul>
+
 </body>
 </html>
