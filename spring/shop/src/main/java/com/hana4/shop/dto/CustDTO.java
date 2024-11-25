@@ -8,4 +8,14 @@ import lombok.Setter;
 public class CustDTO {
 	private Integer id;
 	private String name, tel, email;
+
+	@Override
+	public String toString() {
+		return "CustDTO{" +
+			"id=" + id +
+			", name='" + name + '\'' +
+			", tel='" + tel + '\'' +
+			", email='" + email + '\'' +
+			'}';
+	}
 }
