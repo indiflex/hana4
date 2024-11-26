@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.hana4.shop.dao.CustDAO">
+    <insert id="insert" parameterType="CustDTO">
+        insert into Cust(name, tel, email) values(#{name}, #{tel}, #{email})
+    </insert>
+    
     <select id="getCusts" resultType="CustDTO">
         select id, name, tel
         from Cust
@@ -10,4 +14,9 @@
     <select id="getCust" resultType="CustDTO" parameterType="Integer" statementType="PREPARED">
         select id, name, tel from Cust where id = #{id}
     </select>
+
+    <update id="update" parameterType="CustDTO">
+        update Cust set name = #{name}, tel = #{tel}
+        where id = #{id}
+    </update>
 </mapper>

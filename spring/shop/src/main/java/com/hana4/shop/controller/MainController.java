@@ -48,6 +48,9 @@ public class MainController {
 	@PostMapping("/add")
 	public String add(CustDTO cust) {
 		System.out.println("cust = " + cust);
+		if (cust.getEmail().isBlank()) {
+			cust.setEmail(null);
+		}
 		int insertId = service.addCust(cust);
 		return "redirect:/?insertId=" + insertId;
 	}
@@ -60,7 +63,8 @@ public class MainController {
 	}
 
 	@PostMapping("/modify/{id}")
-	public String update(@PathVariable("id") Integer id, CustDTO cust) {
+	public String update(CustDTO cust) {
+		// System.out.println("cust = " + cust);
 		service.modify(cust);
 		return "redirect:/";
 	}

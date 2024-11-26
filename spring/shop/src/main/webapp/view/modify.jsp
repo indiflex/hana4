@@ -8,7 +8,8 @@
 <div class="container mx-auto">
     <h1 class="text-2xl text-green-800 mb-5">Add Cust</h1>
 
-    <form action="${pageContext.request.contextPath}modify" method="POST" class="space-x-3">
+    <form action="${pageContext.request.contextPath}/modify/${cust.id}" method="POST" class="space-x-3">
+        <%--        <input type="hidden" name="id" value="${cust.id}">--%>
         <label for="name">Name:
             <input type="text" id="name" name="name" value="${cust.name}" class="border rounded-md px-1">
         </label>

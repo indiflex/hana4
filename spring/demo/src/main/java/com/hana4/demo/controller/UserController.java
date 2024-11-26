@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.coyote.BadRequestException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -64,6 +65,17 @@ public class UserController {
 
 	@GetMapping("/{id}")
 	@ResponseBody
+	public ResponseEntity<?> getUser(@PathVariable("id") Long id, HttpServletResponse res) throws IOException {
+		Optional<User> user = service.getUser(id);
+		// if (user.isPresent()) {
+		// return ResponseEntity.ok(user.get());
+		return ResponseEntity.of(user);
+		// return ResponseEntity.ofNullable(user);
+		// } else {
+		// return ResponseEntity.status(404).body("Not Found");
+		// }
+	}
+	/*
 	public User getUser(@PathVariable("id") Long id, HttpServletResponse res) throws IOException {
 		Optional<User> user = service.getUser(id);
 		if (user.isPresent()) {
@@ -73,6 +85,7 @@ public class UserController {
 			return null;
 		}
 	}
+	 */
 
 	private void checkExists(Long id, HttpServletResponse response) throws IOException {
 		if (service.getUser(id).isEmpty()) {
