@@ -39,8 +39,15 @@ WITH RECURSIVE CteDept(id, pid, dname, depth, h) AS (
     from CteDept c inner join Dept d on c.id = d.pid
 ) 
 select /*+ SET_VAR(cte_max_recursion_depth = 20) */ 
-       concat(repeat('↳', c.depth), ' ', c.dname), c.depth
+       concat(repeat('↳', c.depth), ' ', c.dname), c.depth, c.h
        from CteDept c order by c.h;
 
 show variables like '%cte_max_recursion_depth';
 show variables like 'max_execution_time';
+
+select * from Emp where auth=5;
+
+update Emp set auth = 5 order by rand() limit 10;
+
+show create table Emp;
+
