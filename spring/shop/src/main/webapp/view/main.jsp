@@ -30,7 +30,7 @@
                     <small class="text-xs text-gray-500">${cust.tel}</small>
                 </a>
 
-                <a href="/remove/${cust.id}" class="hover:text-blue-700 float-right">Remove</a>
+                <a href="javascript:del(${cust.id})" class="hover:text-blue-700 float-right">Remove</a>
             </li>
         </c:forEach>
         <c:if test="${custs.size() == 0}">
@@ -39,6 +39,14 @@
     </ul>
 
     <div><a href="/add" class="underline text-blue-500">Add Cust</a></div>
+
+    <script>
+        function del(id) {
+            if (confirm('Are u sure??')) {
+                window.location.href = '/remove/' + id;
+            }
+        }
+    </script>
 </div>
 </body>
 </html>

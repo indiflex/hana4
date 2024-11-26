@@ -18,5 +18,7 @@ public interface CustDAO {
 
 	void update(CustDTO cust);
 
-	int insert(CustDTO cust);
+	void insert(CustDTO cust);
+
+	void delete(Integer id);
 }

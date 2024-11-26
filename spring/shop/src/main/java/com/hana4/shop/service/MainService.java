@@ -22,8 +22,8 @@ public class MainService {
 		return dao.getCusts();
 	}
 
-	public int addCust(CustDTO cust) {
-		return dao.insert(cust);
+	public void addCust(CustDTO cust) {
+		dao.insert(cust);
 	}
 
 	public CustDTO find(int id) {
@@ -35,5 +35,6 @@ public class MainService {
 	}
 
 	public void remove(Integer id) {
+		dao.delete(id);
 	}
 }

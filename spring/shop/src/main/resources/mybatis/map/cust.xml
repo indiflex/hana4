@@ -2,13 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.hana4.shop.dao.CustDAO">
-    <insert id="insert" parameterType="CustDTO">
+    <insert id="insert" parameterType="CustDTO" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into Cust(name, tel, email) values(#{name}, #{tel}, #{email})
     </insert>
-    
+    <!--    <insert id="insert" parameterType="CustDTO">-->
+    <!--        insert into Cust(name, tel, email) values(#{name}, #{tel}, #{email})-->
+    <!--        <selectKey order="AFTER" keyColumn="id" keyProperty="id" resultType="Integer">-->
+    <!--            select last_insert_id()-->
+    <!--        </selectKey>-->
+    <!--    </insert>-->
+
     <select id="getCusts" resultType="CustDTO">
-        select id, name, tel
-        from Cust
+        select * from Cust
     </select>
 
     <select id="getCust" resultType="CustDTO" parameterType="Integer" statementType="PREPARED">
@@ -19,4 +24,8 @@
         update Cust set name = #{name}, tel = #{tel}
         where id = #{id}
     </update>
+
+    <delete id="delete" parameterType="Integer">
+        delete from Cust where id = #{id}
+    </delete>
 </mapper>

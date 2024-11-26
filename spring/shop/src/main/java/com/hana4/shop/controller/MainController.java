@@ -51,8 +51,9 @@ public class MainController {
 		if (cust.getEmail().isBlank()) {
 			cust.setEmail(null);
 		}
-		int insertId = service.addCust(cust);
-		return "redirect:/?insertId=" + insertId;
+
+		service.addCust(cust);
+		return "redirect:/?insertId=" + cust.getId();
 	}
 
 	@GetMapping("/modify/{id}")
@@ -71,6 +72,13 @@ public class MainController {
 
 	@GetMapping("/remove/{id}")
 	public String remove(@PathVariable("id") Integer id, Model model) {
+		CustDTO cust = service.find(id);
+		if (cust == null) {
+			model.addAttribute("data", "Cust(#" + id + ")");
+			model.addAttribute("message", "해당 고객이 없습니다!");
+			return "not-found";
+		}
+
 		service.remove(id);
 		return "redirect:/";
 	}
