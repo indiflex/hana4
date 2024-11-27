@@ -18,4 +18,8 @@ public class DeptService {
 	public List<Dept> getList() {
 		return repository.getList();
 	}
+
+	public Dept find(Integer id) {
+		return repository.find(id);
+	}
 }

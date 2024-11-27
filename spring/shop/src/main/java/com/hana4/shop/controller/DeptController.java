@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.hana4.shop.dto.Dept;
@@ -25,5 +26,16 @@ public class DeptController {
 		List<Dept> depts = service.getList();
 		model.addAttribute("depts", depts);
 		return "depts/list";
+	}
+
+	@GetMapping("/{id}")
+	public String getDetail(@PathVariable Integer id, Model model) {
+		Dept dept = service.find(id);
+		List<Dept> depts = service.getList();
+		
+		model.addAttribute("dept", dept);
+		model.addAttribute("depts", depts);
+
+		return "depts/detail";
 	}
 }

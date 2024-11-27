@@ -11,4 +11,6 @@ import com.hana4.shop.dto.Dept;
 @Mapper
 public interface DeptRepository {
 	List<Dept> getList();
+
+	Dept find(Integer id);
 }
