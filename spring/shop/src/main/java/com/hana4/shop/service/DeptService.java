@@ -23,6 +23,7 @@ public class DeptService {
 	public Dept find(Integer id, int pid) {
 		if (id == 0) {
 			Dept dept = new Dept();
+			dept.setId(id);
 			dept.setPid(pid);
 			dept.setDname("신규 부서");
 			return dept;
