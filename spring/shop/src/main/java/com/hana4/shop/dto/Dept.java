@@ -13,10 +13,6 @@ public class Dept {
 		return this.pid == 0;
 	}
 
-	// public String getCaptainNameDisp() {
-	// 	return captainName == null ? "공석" : captainName;
-	// }
-
 	@Override
 	public String toString() {
 		return "Dept{" +

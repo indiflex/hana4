@@ -21,8 +21,11 @@
                     (${dept.captainName == null ? "공석" : dept.captainName})
                 </small>
             </c:if>
+            <a href="${pageContext.request.contextPath}/depts/0?pid=${dept.id}" class="float-right">추가</a>
         </li>
     </c:forEach>
 </ul>
+
+<a href="${pageContext.request.contextPath}/depts/0" class="float-right">부서 추가</a>
 </body>
 </html>

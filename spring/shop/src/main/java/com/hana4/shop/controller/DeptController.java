@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hana4.shop.dto.Dept;
 import com.hana4.shop.dto.Emp;
@@ -31,8 +32,9 @@ public class DeptController {
 	}
 
 	@GetMapping("/{id}")
-	public String getDetail(@PathVariable Integer id, Model model) {
-		Dept dept = service.find(id);
+	public String getDetail(@PathVariable Integer id, @RequestParam(required = false, defaultValue = "0") int pid,
+		Model model) {
+		Dept dept = service.find(id, pid);
 		List<Dept> depts = service.getList(id);
 		List<Emp> emps = service.getEmps();
 
@@ -51,12 +53,14 @@ public class DeptController {
 	}
 
 	@GetMapping("/{id}/remove")
-	public String remove(@PathVariable int id) {
+	public String remove(@PathVariable int id, Model model) {
 		List<Dept> childrenDepts = service.findByPid(id);
-		if (childrenDepts.isEmpty()) {
+		System.out.println("childrenDepts = " + childrenDepts);
+		if (!childrenDepts.isEmpty()) {
+			model.addAttribute("message", "참조하는 하위 부서가 존재합니다!");
 			return "error";
 		}
 
-		return "redirect:/";
+		return "redirect:/depts";
 	}
 }

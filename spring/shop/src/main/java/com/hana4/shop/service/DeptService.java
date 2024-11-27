@@ -20,7 +20,14 @@ public class DeptService {
 		return repository.getList(id);
 	}
 
-	public Dept find(Integer id) {
+	public Dept find(Integer id, int pid) {
+		if (id == 0) {
+			Dept dept = new Dept();
+			dept.setPid(pid);
+			dept.setDname("신규 부서");
+			return dept;
+		}
+
 		return repository.find(id);
 	}
 
