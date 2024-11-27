@@ -22,4 +22,6 @@ public interface DeptRepository {
 	void update(Dept dept);
 
 	List<Dept> findByPid(int id);
+
+	void delete(int id);
 }

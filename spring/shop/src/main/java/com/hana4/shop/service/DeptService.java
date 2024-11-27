@@ -46,4 +46,8 @@ public class DeptService {
 	public List<Dept> findByPid(int id) {
 		return repository.findByPid(id);
 	}
+
+	public void remove(int id) {
+		repository.delete(id);
+	}
 }

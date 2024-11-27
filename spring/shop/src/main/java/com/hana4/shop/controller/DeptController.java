@@ -47,6 +47,7 @@ public class DeptController {
 
 	@PostMapping("/{id}/save")
 	public String save(Dept dept) {
+		System.out.println("dept = " + dept);
 		service.save(dept);
 
 		return "redirect:/depts";
@@ -55,12 +56,12 @@ public class DeptController {
 	@GetMapping("/{id}/remove")
 	public String remove(@PathVariable int id, Model model) {
 		List<Dept> childrenDepts = service.findByPid(id);
-		System.out.println("childrenDepts = " + childrenDepts);
 		if (!childrenDepts.isEmpty()) {
 			model.addAttribute("message", "참조하는 하위 부서가 존재합니다!");
 			return "error";
 		}
 
+		service.remove(id);
 		return "redirect:/depts";
 	}
 }

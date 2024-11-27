@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Dept {
-	private int id, pid, captain, depth;
+	private Integer id, pid, captain, depth;
 	private String dname, captainName;
 
 	public boolean getIsTop() {
