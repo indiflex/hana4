@@ -9,6 +9,10 @@ public class Dept {
 	private int id, pid, captain, depth;
 	private String dname;
 
+	public boolean getIsTop() {
+		return this.pid == 0;
+	}
+
 	@Override
 	public String toString() {
 		return "Dept{" +

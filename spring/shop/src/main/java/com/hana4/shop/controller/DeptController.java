@@ -14,7 +14,11 @@ import com.hana4.shop.service.DeptService;
 @RequestMapping("/depts")
 public class DeptController {
 
-	private DeptService service;
+	private final DeptService service;
+
+	public DeptController(DeptService service) {
+		this.service = service;
+	}
 
 	@GetMapping("")
 	public String getList(Model model) {

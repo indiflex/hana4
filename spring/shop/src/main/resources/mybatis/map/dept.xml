@@ -30,4 +30,8 @@
     <delete id="delete" parameterType="Integer">
         delete from Dept where id = #{id}
     </delete>
+
+    <select id="getEmps" resultType="Emp">
+        select * from Emp where auth &lt; 9
+    </select>
 </mapper>
