@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.hana4.shop.dao.DeptRepository;
 import com.hana4.shop.dto.Dept;
+import com.hana4.shop.dto.Emp;
 
 @Service
 public class DeptService {
@@ -15,11 +16,27 @@ public class DeptService {
 		this.repository = repository;
 	}
 
-	public List<Dept> getList() {
-		return repository.getList();
+	public List<Dept> getList(int id) {
+		return repository.getList(id);
 	}
 
 	public Dept find(Integer id) {
 		return repository.find(id);
+	}
+
+	public List<Emp> getEmps() {
+		return repository.getEmps();
+	}
+
+	public void save(Dept dept) {
+		if (dept.getId() == 0) {
+			repository.insert(dept);
+		} else {
+			repository.update(dept);
+		}
+	}
+
+	public List<Dept> findByPid(int id) {
+		return repository.findByPid(id);
 	}
 }

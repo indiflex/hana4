@@ -7,12 +7,13 @@
         values(#{pid}, #{dname}, #{captain})
     </insert>
 
-    <select id="getList" resultType="Dept">
+    <select id="getList" resultType="Dept" parameterType="Integer">
         WITH RECURSIVE CteDept(id, pid, dname, captain, depth, h) AS (
-        select id, pid, dname, captain, 0, cast(id as char(10)) from Dept where pid = 0
+        select id, pid, dname, captain, 0, cast(id as char(10)) from Dept
+        where pid = 0 and id != #{id}
         UNION ALL
         select d.id, d.pid, d.dname, d.captain, depth + 1, concat(c.h, '-', d.id)
-        from CteDept c inner join Dept d on c.id = d.pid
+        from CteDept c inner join Dept d on c.id = d.pid and d.id != #{id}
         )
         select c.id, c.pid, c.dname, c.captain, c.depth, e.ename as captainName
         from CteDept c left join Emp e on c.captain = e.id
@@ -34,5 +35,9 @@
 
     <select id="getEmps" resultType="Emp">
         select * from Emp where auth &lt; 9
+    </select>
+
+    <select id="findByPid" parameterType="Integer" resultType="Dept">
+        select * from Dept where pid = #{id}
     </select>
 </mapper>
