@@ -1,11 +1,6 @@
 GET http://localhost:8080/users
 Accept: application/json
 
-<> 2024-11-28T150647.200.json
-<> 2024-11-28T144402.200.json
-<> 2024-11-28T144329.200.json
-<> 2024-11-28T143549.200.json
-
 
 ### regist
 POST http://localhost:8080/users
@@ -15,23 +10,8 @@ Content-Type: application/json
   "name": "Kim1234"
 }
 
-<> 2024-11-28T150146.200.json
-<> 2024-11-28T150136.500.json
-<> 2024-11-28T144341.200.json
-<> 2024-11-28T144316.200.json
-<> 2024-11-28T143602.500.json
-<> 2024-11-28T125459.200.json
-<> 2024-11-28T125044.500.json
-<> 2024-11-28T124912.500.json
-
-
 ### get a user
 GET http://localhost:8080/users/10
-
-<> 2024-11-28T144914.500.json
-<> 2024-11-28T144907.200.json
-<> 2024-11-22T143319.200.json
-
 
 ### update user
 PATCH http://localhost:8080/users/1
@@ -40,22 +20,6 @@ Content-Type: application/json
 {
   "name": "New"
 }
-
-<> 2024-11-28T150108.200.json
-<> 2024-11-28T145923.200.json
-<> 2024-11-28T145741.500.json
-<> 2024-11-28T145321.500.json
-<> 2024-11-22T143859.200.json
-<> 2024-11-22T143800.500.json
-<> 2024-11-22T143719.500.json
-<> 2024-11-22T143709.500.json
-<> 2024-11-22T143706.500.json
-<> 2024-11-22T143617.500.json
-<> 2024-11-22T143539.500.json
-<> 2024-11-22T143427.500.json
-<> 2024-11-22T143336.500.json
-<> 2024-11-22T143324.500.json
-<> 2024-11-22T143306.500.json
 
 ### ss
 POST http://localhost:8080/hello
@@ -69,11 +33,3 @@ PATCH http://localhost:8080/users/2
 
 ### delete
 DELETE http://localhost:8080/users/1
-
-<> 2024-11-28T150250.200.json
-<> 2024-11-28T150155.500.json
-<> 2024-11-22T144050.404.json
-<> 2024-11-22T144045.200.json
-<> 2024-11-22T144014.500.json
-<> 2024-11-22T144000.404.json
-<> 2024-11-22T143926.500.json
