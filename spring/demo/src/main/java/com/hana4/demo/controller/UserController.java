@@ -65,7 +65,7 @@ public class UserController {
 
 	@GetMapping("/{id}")
 	@ResponseBody
-	public ResponseEntity<?> getUser(@PathVariable("id") Long id, HttpServletResponse res) throws IOException {
+	public ResponseEntity<?> getUser(@PathVariable("id") Long id) {
 		Optional<User> user = service.getUser(id);
 		// if (user.isPresent()) {
 		// return ResponseEntity.ok(user.get());
@@ -87,10 +87,14 @@ public class UserController {
 	}
 	 */
 
-	private void checkExists(Long id, HttpServletResponse response) throws IOException {
-		if (service.getUser(id).isEmpty()) {
+	private User checkExists(Long id, HttpServletResponse response) throws IOException {
+		Optional<User> user = service.getUser(id);
+		if (user.isEmpty()) {
 			response.sendError(404, "User not found!");
+			return null;
 		}
+
+		return user.get();
 	}
 
 	// @PatchMapping("/users/{id}")
@@ -101,9 +105,14 @@ public class UserController {
 		System.out.println("id = " + id);
 		user.setId(id);
 		System.out.println("user = " + user);
-		checkExists(user.getId(), res);
-
-		return service.updateUser(user);
+		User attachedUser = checkExists(user.getId(), res);
+		assert attachedUser != null;
+		// if (attachedUser == null) {
+		// 	res.sendError(404);
+		// 	return null;
+		// }
+		attachedUser.setName(user.getName());
+		return service.updateUser(attachedUser);
 	}
 
 	@DeleteMapping("/{id}")

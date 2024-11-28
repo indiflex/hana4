@@ -38,7 +38,7 @@ public class JpaUserRepository implements UserRepository {
 	public User deleteUser(Long id) {
 		Optional<User> user = this.findById(id);
 		if (user.isPresent()) {
-			em.remove(user);
+			em.remove(user.get());
 			return user.get();
 		}
 
@@ -48,10 +48,11 @@ public class JpaUserRepository implements UserRepository {
 	@Override
 	public Optional<User> findById(Long id) {
 		// return Optional.ofNullable(users.get(id));
-		User user = em.createQuery("select u from User u where id = :id", User.class)
+		return em.createQuery("select u from User u where id = :id", User.class)
 			.setParameter("id", id)
-			.getSingleResult();
-		return Optional.ofNullable(user);
+			.getResultList().stream().findAny();
+		// .getSingleResult();
+		// return Optional.ofNullable(user);
 	}
 
 	@Override

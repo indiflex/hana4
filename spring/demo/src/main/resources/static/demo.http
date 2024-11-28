@@ -11,7 +11,7 @@ Content-Type: application/json
 }
 
 ### get a user
-GET http://localhost:8080/users/10
+GET http://localhost:8080/users/1
 
 ### update user
 PATCH http://localhost:8080/users/1
