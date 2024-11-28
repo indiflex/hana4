@@ -1,53 +1,68 @@
 package com.hana4.demo.repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hana4.demo.domain.User;
 
-public class JpaUserRepository implements UserRepository {
-	public JpaUserRepository() {
-		initialize();
-	}
+import jakarta.persistence.EntityManager;
 
-	public void initialize() {
+@Transactional
+public class JpaUserRepository implements UserRepository {
+	private final EntityManager em;
+
+	public JpaUserRepository(EntityManager em) {
+		this.em = em;
 	}
 
 	@Override
 	public List<User> findAll() {
-		return new ArrayList<>(users.values());
+		return em.createQuery("select u from User u", User.class).getResultList();
 	}
 
 	@Override
 	public Long addUser(User user) {
-		final Set<Long> userIds = users.keySet();
-		Long maxId = userIds.stream().max(Long::compare).orElse(0L);
-
-		user.setId(maxId + 1);
-		users.put(user.getId(), user);
+		em.persist(user);
 		return user.getId();
 	}
 
 	@Override
 	public User saveUser(User user) {
-		users.put(user.getId(), user);
-		return users.get(user.getId());
+		em.persist(user);
+		return user;
 	}
 
 	@Override
 	public User deleteUser(Long id) {
-		return users.remove(id);
+		Optional<User> user = this.findById(id);
+		if (user.isPresent()) {
+			em.remove(user);
+			return user.get();
+		}
+
+		return null;
 	}
 
 	@Override
 	public Optional<User> findById(Long id) {
-		return Optional.ofNullable(users.get(id));
+		// return Optional.ofNullable(users.get(id));
+		User user = em.createQuery("select u from User u where id = :id", User.class)
+			.setParameter("id", id)
+			.getSingleResult();
+		return Optional.ofNullable(user);
 	}
 
 	@Override
 	public Optional<User> findByName(String name) {
-		return users.values().stream().filter(user -> user.getName().equals(name)).findAny();
+		List<User> users = em.createQuery("select u from User u where name = :name", User.class)
+			.setParameter("name", name)
+			.getResultList();
+
+		return users.stream().findAny();
+	}
+
+	public void initialize() {
 	}
 }
