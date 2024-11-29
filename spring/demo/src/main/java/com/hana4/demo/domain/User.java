@@ -22,6 +22,8 @@ public class User {
 	@Comment("사용자 이름")
 	private String name;
 
+	private short age;
+
 	@Transient
 	private int auth;
 
@@ -30,12 +32,21 @@ public class User {
 	}
 
 	public User(String name) {
-		this(0L, name);
+		this(name, (short)0);
 	}
 
 	public User(Long id, String name) {
+		this(id, name, (short)0);
+	}
+
+	public User(String name, short age) {
+		this(0L, name, age);
+	}
+
+	public User(Long id, String name, short age) {
 		this.id = id;
 		this.name = name;
+		this.age = age;
 	}
 
 	public Long getId() {
@@ -60,5 +71,13 @@ public class User {
 			"id=" + id +
 			", name='" + name + '\'' +
 			'}';
+	}
+
+	public short getAge() {
+		return age;
+	}
+
+	public void setAge(short age) {
+		this.age = age;
 	}
 }
