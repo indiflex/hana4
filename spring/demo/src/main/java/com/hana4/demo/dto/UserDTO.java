@@ -1,19 +1,16 @@
 package com.hana4.demo.dto;
 
-import java.util.List;
-
-import com.hana4.demo.domain.User;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.Singular;
 import lombok.ToString;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = "age")
 @EqualsAndHashCode
@@ -25,10 +22,7 @@ public class UserDTO {
 
 	private short age;
 
-	@Singular("user")
-	private List<User> list;
-
-	public UserDTO(short age) {
-		this.age = age;
-	}
+	// @Singular("user")
+	// private List<User> list;
+	// builder().id(0).name(xx).user(hong).user(kim).list()
 }

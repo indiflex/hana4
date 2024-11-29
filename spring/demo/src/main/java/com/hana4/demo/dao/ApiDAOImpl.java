@@ -32,17 +32,22 @@ public class ApiDAOImpl implements ApiDAO {
 	}
 
 	@Override
-	public User update(UserDTO user) throws Exception {
+	public User update(UserDTO user) {
 		Optional<User> pUser = repository.findById(user.getId());
 		if (pUser.isPresent()) {
-			return repository.save(pUser.get());
+			User managedUser = pUser.get();
+			managedUser.setName(user.getName());
+			if (user.getAge() > 0) {
+				managedUser.setAge(user.getAge());
+			}
+			return repository.save(managedUser);
 		} else {
 			throw new IllegalStateException("User not Found!");
 		}
 	}
 
 	@Override
-	public User delete(Long id) throws Exception {
+	public User delete(Long id) {
 		Optional<User> user = repository.findById(id);
 		if (user.isPresent()) {
 			repository.delete(user.get());

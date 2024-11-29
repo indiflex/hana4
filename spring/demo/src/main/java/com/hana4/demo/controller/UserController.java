@@ -32,7 +32,7 @@ public class UserController {
 		this.service = service;
 	}
 
-	@GetMapping("")
+	@GetMapping()
 	@ResponseBody
 	public List<User> getUsers() {
 		return service.getList();
@@ -44,7 +44,7 @@ public class UserController {
 		return "user/list";
 	}
 
-	@PostMapping("")
+	@PostMapping()
 	@ResponseBody
 	public User regist(@RequestBody User user) throws BadRequestException {
 		Long newerId = service.regist(user);

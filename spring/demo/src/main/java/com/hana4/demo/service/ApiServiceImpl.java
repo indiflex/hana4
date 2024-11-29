@@ -1,7 +1,6 @@
 package com.hana4.demo.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -20,31 +19,27 @@ public class ApiServiceImpl implements ApiService {
 	@Override
 	public List<UserDTO> getUsers() {
 		List<User> users = dao.selectAll();
-
+		return users.stream()
+			.map(u -> UserDTO.builder().id(u.getId()).name(u.getName()).age(u.getAge()).build()).toList();
 	}
 
 	@Override
 	public UserDTO getUser(Long id) {
-		Optional<User> ouser = dao.select(id);
-		if (ouser.isPresent()) {
-			User user = ouser.get();
-			UserDTO dto = new UserDTO(user.getId(), user.getName(), user.getAge());
-		}
-		return null;
+		return dao.select(id).map(User::toDTO).orElse(null);
 	}
 
 	@Override
 	public UserDTO addUser(String name, short age) {
-		return null;
+		return dao.insert(name, age).toDTO();
 	}
 
 	@Override
-	public UserDTO modifyUser(UserDTO user) throws Exception {
-		return null;
+	public UserDTO modifyUser(UserDTO user) {
+		return dao.update(user).toDTO();
 	}
 
 	@Override
-	public UserDTO removeUser(Long id) throws Exception {
-		return null;
+	public UserDTO removeUser(Long id) {
+		return dao.delete(id).toDTO();
 	}
 }

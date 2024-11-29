@@ -13,7 +13,7 @@ public interface ApiDAO {
 
 	public User insert(String name, short age);
 
-	public User update(UserDTO user) throws Exception;
+	public User update(UserDTO user);
 
-	public User delete(Long id) throws Exception;
+	public User delete(Long id);
 }
