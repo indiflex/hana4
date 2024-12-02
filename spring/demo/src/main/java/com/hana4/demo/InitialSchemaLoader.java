@@ -2,12 +2,14 @@ package com.hana4.demo;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.persistence.EntityManager;
 
 @Component
+@Profile("!test")
 public class InitialSchemaLoader implements ApplicationRunner {
 
 	private final EntityManager em;
@@ -19,6 +21,7 @@ public class InitialSchemaLoader implements ApplicationRunner {
 	@Override
 	@Transactional
 	public void run(ApplicationArguments args) throws Exception {
+		System.out.println("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSs");
 		String dropSql = "drop function if exists f_xxx";
 		em.createNativeQuery(dropSql).executeUpdate();
 
