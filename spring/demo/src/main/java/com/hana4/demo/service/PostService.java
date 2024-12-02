@@ -8,7 +8,7 @@ public interface PostService {
 
 	List<PostDTO> getPosts();
 
-	PostDTO addPost(String title, String writer, String body);
+	PostDTO addPost(PostDTO post);
 
 	PostDTO getPost(String id);
 

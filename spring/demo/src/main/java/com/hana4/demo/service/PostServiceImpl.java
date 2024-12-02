@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import com.hana4.demo.dao.PostDAO;
 import com.hana4.demo.dto.PostDTO;
-import com.hana4.demo.entity.Post;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -23,8 +22,7 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public PostDTO addPost(String title, String writer, String body) {
-		Post post = new Post(title, writer, body);
+	public PostDTO addPost(PostDTO post) {
 		return dao.insert(post);
 	}
 

@@ -6,8 +6,6 @@ import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.hana4.demo.dto.PostDTO;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -47,9 +45,5 @@ public class Post {
 	}
 
 	public Post() {
-	}
-
-	public PostDTO toDTO() {
-		return PostDTO.builder().id(id).title(title).createdate(createdate).workdate(workdate).body(body).build();
 	}
 }

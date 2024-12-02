@@ -5,13 +5,12 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.hana4.demo.dto.PostDTO;
-import com.hana4.demo.entity.Post;
 
 @Component
 public interface PostDAO {
 	List<PostDTO> findAll();
 
-	PostDTO insert(Post post);
+	PostDTO insert(PostDTO post);
 
 	PostDTO findById(String id);
 
