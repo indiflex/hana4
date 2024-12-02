@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import com.hana4.demo.domain.User;
+import com.hana4.demo.entity.User;
 
 // @Repository
 public class VolatileUserRepository implements UserRepository {

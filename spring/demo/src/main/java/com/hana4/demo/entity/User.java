@@ -1,4 +1,4 @@
-package com.hana4.demo.domain;
+package com.hana4.demo.entity;
 
 import org.hibernate.annotations.Comment;
 

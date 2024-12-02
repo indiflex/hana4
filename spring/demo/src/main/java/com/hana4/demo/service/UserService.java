@@ -3,7 +3,7 @@ package com.hana4.demo.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.hana4.demo.domain.User;
+import com.hana4.demo.entity.User;
 import com.hana4.demo.repository.UserRepository;
 
 // @Service

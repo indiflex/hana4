@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.hana4.demo.domain.User;
+import com.hana4.demo.entity.User;
 import com.hana4.demo.service.UserService;
 
 import jakarta.servlet.http.HttpServletResponse;

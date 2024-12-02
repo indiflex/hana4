@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.hana4.demo.dao.ApiDAO;
-import com.hana4.demo.domain.User;
 import com.hana4.demo.dto.UserDTO;
+import com.hana4.demo.entity.User;
 
 @Service
 public class ApiServiceImpl implements ApiService {

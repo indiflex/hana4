@@ -6,7 +6,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import com.hana4.demo.domain.User;
+import com.hana4.demo.entity.User;
 import com.hana4.demo.repository.UserRepository;
 
 @Component

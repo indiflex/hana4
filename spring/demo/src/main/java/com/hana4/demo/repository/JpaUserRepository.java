@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hana4.demo.domain.User;
+import com.hana4.demo.entity.User;
 
 import jakarta.persistence.EntityManager;
 
