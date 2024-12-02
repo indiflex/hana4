@@ -7,6 +7,7 @@ public class PostMapper {
 		return PostDTO.builder()
 			.id(post.getId())
 			.title(post.getTitle())
+			.writer(post.getWriter())
 			.createdate(post.getCreatedate())
 			.workdate(post.getWorkdate())
 			.body(post.getBody())

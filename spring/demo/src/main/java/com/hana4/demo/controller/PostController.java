@@ -35,17 +35,20 @@ public class PostController {
 	}
 
 	@GetMapping("/{id}")
-	public PostDTO getPost(@PathVariable String id) {
+	public PostDTO getPost(@PathVariable("id") String id) {
+		System.out.println("id = " + id);
 		return service.getPost(id);
 	}
 
 	@PatchMapping("/{id}")
-	public PostDTO updatePost(@PathVariable String id, @RequestBody PostDTO post) {
-		return service.modifyPost(id);
+	public PostDTO updatePost(@PathVariable("id") String id, @RequestBody PostDTO post) {
+		post.setId(id);
+		return service.modifyPost(post);
 	}
 
 	@DeleteMapping("/{id}")
-	public PostDTO removePost(@PathVariable String id) {
+	public PostDTO removePost(@PathVariable("id") String id) {
+		System.out.println("delete.id = " + id);
 		return service.removePost(id);
 	}
 }

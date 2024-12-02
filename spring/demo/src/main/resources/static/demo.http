@@ -33,3 +33,34 @@ Content-Type: application/json
 {
   "name": "훈민정음"
 }
+
+
+### get posts
+GET http://localhost:8080/posts
+
+
+### add post
+POST http://localhost:8080/posts
+Content-Type: application/json
+
+{
+  "title": "훈민정음11",
+  "writer": "세종대왕11",
+  "body": "나랏말씀이 뒹귁에 달라..."
+}
+
+### get post
+GET http://localhost:8080/posts/9ad92263-8d8c-489f-a686-6701f9582e94
+
+### update post
+PATCH http://localhost:8080/posts/9ad92263-8d8c-489f-a686-6701f9582e94
+Content-Type: application/json
+
+{
+  "title": "훈민정음99",
+  "writer": "세종대왕99",
+  "body": "나랏말씀이 뒹귁에 달라...99"
+}
+
+### delete post
+DELETE http://localhost:8080/posts/9ad92263-8d8c-489f-a686-6701f9582e94
