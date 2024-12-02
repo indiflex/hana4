@@ -42,4 +42,5 @@ public class ApiServiceImpl implements ApiService {
 	public UserDTO removeUser(Long id) {
 		return dao.delete(id).toDTO();
 	}
+
 }

@@ -21,7 +21,7 @@ public class ApiDAOImpl implements ApiDAO {
 	}
 
 	@Override
-	public Optional<User> select(Long id) {
+	public Optional<com.hana4.demo.entity.User> select(Long id) {
 		return repository.findById(id);
 	}
 
@@ -56,4 +56,5 @@ public class ApiDAOImpl implements ApiDAO {
 			throw new IllegalStateException("User not Found!");
 		}
 	}
+
 }

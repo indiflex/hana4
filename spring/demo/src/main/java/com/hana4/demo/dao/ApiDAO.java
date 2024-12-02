@@ -16,4 +16,5 @@ public interface ApiDAO {
 	public User update(UserDTO user);
 
 	public User delete(Long id);
+
 }
