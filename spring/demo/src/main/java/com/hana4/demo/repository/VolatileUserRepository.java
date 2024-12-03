@@ -25,6 +25,11 @@ public class VolatileUserRepository implements UserRepository {
 	}
 
 	@Override
+	public void destroy() {
+		
+	}
+
+	@Override
 	public List<User> findAll() {
 		return new ArrayList<>(users.values());
 	}

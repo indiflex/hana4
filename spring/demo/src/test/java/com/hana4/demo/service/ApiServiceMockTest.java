@@ -30,6 +30,7 @@ public class ApiServiceMockTest {
 
 		// mocking (given)
 		Optional<User> ouser = Optional.of(new User(ID, "AA11", age));
+
 		Mockito.when(dao.select(ID)).thenReturn(ouser);
 
 		// when

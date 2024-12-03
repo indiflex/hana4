@@ -19,4 +19,6 @@ public interface UserRepository {
 	Optional<User> findByName(String name);
 
 	void initialize();
+
+	void destroy();
 }
