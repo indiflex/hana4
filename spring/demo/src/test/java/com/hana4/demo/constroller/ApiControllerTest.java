@@ -39,7 +39,7 @@ public class ApiControllerTest {
 
 	@BeforeAll
 	static void beforeAll() {
-		System.out.println("Before Allllllllllllllllllll" + em);
+		System.out.println("Before Allllllllllllllllllll");
 	}
 
 	@AfterAll
@@ -62,8 +62,8 @@ public class ApiControllerTest {
 		);
 
 		List<UserDTO> list = Arrays.asList(
-			new UserDTO[] {new UserDTO(1L, "AA10", (short)10),
-				new UserDTO(2L, "AA11", (short)11), new UserDTO(3L, "AA12", (short)12)});
+			new UserDTO(1L, "AA10", (short)10),
+			new UserDTO(2L, "AA11", (short)11), new UserDTO(3L, "AA12", (short)12));
 
 		String reqStr = objectMapper.writeValueAsString(list);
 		System.out.println("reqStr = " + reqStr);
