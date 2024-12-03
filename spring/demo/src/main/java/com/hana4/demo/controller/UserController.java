@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.coyote.BadRequestException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping("/users")
 public class UserController {
+	private Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	private final UserService service;
 
@@ -35,6 +38,11 @@ public class UserController {
 	@GetMapping()
 	@ResponseBody
 	public List<User> getUsers() {
+		logger.trace("tttttttrace!!!");
+		logger.debug("dddddddddebug!!!");
+		logger.info("iiiiiiiiiiinfo!!!");
+		logger.warn("wwwwwwwwwwwarn!!!");
+		logger.error(("eeeeeeeeeeerrror!!"));
 		return service.getList();
 	}
 
