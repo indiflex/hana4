@@ -30,10 +30,10 @@
         </rollingPolicy>
     </appender>
 
-    <logger name="org.springframework.web" level="DEBUG">
-        <appender-ref ref="STDOUT"/>
-        <appender-ref ref="FILE"/>
-    </logger>
+    <!--    <logger name="org.springframework.web" level="DEBUG">-->
+    <!--        <appender-ref ref="STDOUT"/>-->
+    <!--        <appender-ref ref="FILE"/>-->
+    <!--    </logger>-->
 
     <logger name="com.hana4.demo.controller.PostController" level="DEBUG">
         <appender-ref ref="FILE2"/>
