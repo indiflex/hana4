@@ -12,22 +12,29 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import com.hana4.demo.Lang;
+import com.hana4.demo.dto.LocaleDTO;
 import com.hana4.demo.entity.User;
 import com.hana4.demo.service.UserService;
 
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/users")
 public class UserController {
-	private Logger logger = LoggerFactory.getLogger(UserController.class);
+	private final Logger logger = LoggerFactory.getLogger(UserController.class);
+
+	private final String SessLocale = SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME;
 
 	private final UserService service;
 
@@ -47,9 +54,17 @@ public class UserController {
 	}
 
 	@GetMapping("/list")
-	public String userList(Model model) {
+	public String userList(Model model, HttpSession session) {
 		model.addAttribute("users", service.getList());
+		model.addAttribute("Langs", Lang.values());
+		model.addAttribute("currLang", session.getAttribute(SessLocale));
 		return "user/list";
+	}
+
+	@PostMapping("/changelang")
+	public String changeLang(@ModelAttribute LocaleDTO dto, HttpSession session) {
+		session.setAttribute(SessLocale, dto.getLocale());
+		return "redirect:/users/list";
 	}
 
 	@PostMapping()

@@ -1,7 +1,11 @@
 package com.hana4.demo;
 
+import java.util.Locale;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import com.hana4.demo.dao.ApiDAO;
 import com.hana4.demo.dao.ApiDAOImpl;
@@ -37,5 +41,12 @@ public class SpringConfig {
 	@Bean
 	public ApiDAO apiDAO() {
 		return new ApiDAOImpl(apiRepository);
+	}
+
+	@Bean
+	public LocaleResolver localeResolver() {
+		SessionLocaleResolver sessionResolver = new SessionLocaleResolver();
+		sessionResolver.setDefaultLocale(Locale.KOREAN);
+		return sessionResolver;
 	}
 }
