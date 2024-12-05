@@ -57,11 +57,17 @@ public class ApiController {
 		if (Objects.isNull(user) || user.getId() == 0) {
 			return ResponseEntity.notFound().build();
 		}
-		
+
 		return ResponseEntity.ok(user);
 	}
 
 	@PostMapping("/users")
+	@Tag(name = "고객등록")
+	@Operation(summary = "Post로 이름과 나이만..")
+	@Parameters({
+		@Parameter(name = "name", description = "유저명", example = "홍길동"),
+		@Parameter(name = "age", description = "나이", example = "33"),
+	})
 	public UserDTO addUser(@RequestBody UserDTO user) {
 		return service.addUser(user.getName(), user.getAge());
 	}

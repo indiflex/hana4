@@ -2,6 +2,9 @@ package com.hana4.demo.repository;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -21,6 +24,15 @@ public class PostRepositoryTest {
 
 	@Autowired
 	EntityManager em;
+
+	@Test
+	void findByAnythingTest() {
+		final LocalDate ldate = LocalDate.of(2024, 12, 3);
+		final LocalDateTime dateTime = LocalDateTime.of(ldate, LocalTime.of(9, 0));
+		List<Post> posts = repository.findByAnything("세종대왕11", dateTime);
+		System.out.println("posts = " + posts);
+		assertThat(posts.size()).isGreaterThan(0);
+	}
 
 	@Test
 	void addPostTest() {

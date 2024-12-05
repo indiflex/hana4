@@ -1,5 +1,6 @@
 package com.hana4.demo.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -18,8 +19,10 @@ import lombok.ToString;
 public class UserDTO {
 	private Long id;
 
+	@Schema(description = "고개명", example = "홍길동")
 	private String name;
 
+	@Schema(description = "나이", example = "33")
 	private short age;
 
 	// @Singular("user")
