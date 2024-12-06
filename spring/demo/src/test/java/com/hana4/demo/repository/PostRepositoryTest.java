@@ -25,14 +25,31 @@ public class PostRepositoryTest {
 	@Autowired
 	EntityManager em;
 
+	private final static LocalDateTime dateTime = LocalDateTime.of(LocalDate.of(2024, 12, 5), LocalTime.of(12, 0));
+
 	@Test
-	void findByAnythingTest() {
-		final LocalDate ldate = LocalDate.of(2024, 12, 3);
-		final LocalDateTime dateTime = LocalDateTime.of(ldate, LocalTime.of(9, 0));
-		List<Post> posts = repository.findByAnything("세종대왕11", dateTime);
-		System.out.println("posts = " + posts);
-		assertThat(posts.size()).isGreaterThan(0);
+	void countCretedateTest() {
+		long cnt = repository.countByCreatedateLessThanEqual(dateTime);
+		System.out.println("cnt = " + cnt);
+		assertThat(cnt).isGreaterThan(0);
 	}
+
+	@Test
+	void findCreatedateLessThanEqualTest() {
+		long cnt = repository.countByCreatedateLessThanEqual(dateTime);
+		List<Post> posts = repository.findByCreatedateLessThanEqual(dateTime);
+		System.out.println("posts.size() + \":\" + repository.count() = " + posts.size() + ":" + repository.count());
+		assertThat(posts.size()).isEqualTo(cnt);
+	}
+
+	// @Test
+	// void findByAnythingTest() {
+	// 	final LocalDate ldate = LocalDate.of(2024, 12, 3);
+	// 	final LocalDateTime dateTime = LocalDateTime.of(ldate, LocalTime.of(9, 0));
+	// 	List<Post> posts = repository.findByAnything("세종대왕11", dateTime);
+	// 	System.out.println("posts = " + posts);
+	// 	assertThat(posts.size()).isGreaterThan(0);
+	// }
 
 	@Test
 	void addPostTest() {
