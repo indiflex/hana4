@@ -28,5 +28,6 @@ public class Code extends BaseEntity {
 	private String codeName;
 
 	@OneToOne(mappedBy = "code", cascade = CascadeType.ALL)
+	@ToString.Exclude
 	private CodeInfo codeInfo;
 }
