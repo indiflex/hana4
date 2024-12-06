@@ -25,11 +25,12 @@ public class SubCode extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@Column(nullable = false, unique = true, length = 31)
+	@Column(nullable = false, unique = true, length = 32)
 	private String value;
 
 	@ManyToOne()
 	@JoinColumn(name = "code",
 		foreignKey = @ForeignKey(name = "fk_SubCode_code"))
+	@ToString.Exclude
 	private Code code;
 }

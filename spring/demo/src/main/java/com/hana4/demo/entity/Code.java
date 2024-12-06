@@ -35,7 +35,7 @@ public class Code extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(nullable = false, length = 31)
+	@Column(nullable = false, length = 32)
 	private String codeName;
 
 	@OneToOne(mappedBy = "code", cascade = CascadeType.ALL)

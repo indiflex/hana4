@@ -1,18 +1,23 @@
 package com.hana4.demo.repository;
 
-import java.util.Optional;
+import static org.assertj.core.api.Assertions.*;
+
+import java.util.List;
+import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.PageRequest;
 
 import com.hana4.demo.entity.Code;
 import com.hana4.demo.entity.CodeInfo;
 import com.hana4.demo.entity.SubCode;
 
-// @DataJpaTest
-// @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@SpringBootTest
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+// @SpringBootTest
 public class CodeRepositoryTest {
 	@Autowired
 	CodeRepository codeRepository;
@@ -28,44 +33,63 @@ public class CodeRepositoryTest {
 	@Test
 	void addCodeWithSubCode() {
 		Code code = new Code();
-		code.setCodeName("고가등급");
+		code.setCodeName(getCodeName());
 		codeRepository.save(code);
+		assertThat(code.getId()).isGreaterThan(0);
 
 		SubCode subCode = new SubCode();
-		subCode.setValue("S등급");
+		subCode.setValue(getCodeName());
 		subCode.setCode(code);
 		subCodeRepository.save(subCode);
+		assertThat(subCode.getId()).isGreaterThan(0);
 
 		System.out.println("subCode = " + subCode);
 	}
 
 	@Test
 	void findCodeInfoTest() {
-		Optional<CodeInfo> optionalCodeInfo = codeInfoRepository.findById(ID);
-		CodeInfo codeInfo = optionalCodeInfo.orElseThrow();
-		System.out.println("codeInfo = " + codeInfo);
+		CodeInfo codeInfo = getCodeInfo();
+		// System.out.println("codeInfo = " + codeInfo);
+		assertThat(codeInfo).isNotNull();
 	}
 
 	@Test
 	void findCodeTest() {
-		Optional<Code> optionalCode = codeRepository.findById(ID);
-		// assertThat(optionalCode.isPresent()).isTrue();
-		// Code code = optionalCode.get();
-		Code code = optionalCode.orElseThrow();
-		System.out.println("code = " + code);
+		Code code = getCode();
+		assertThat(code).isNotNull();
+		assertThat(code.getCodeInfo()).isNotNull();
+	}
+
+	private Code getCode() {
+		List<Code> codes = codeRepository.findFirstByOrderById(PageRequest.of(0, 1));
+		System.out.println("codes = " + codes);
+		return codes.stream().findFirst().orElseThrow();
+	}
+
+	private CodeInfo getCodeInfo() {
+		List<CodeInfo> codeInfos = codeInfoRepository.findFirstByOrderById(PageRequest.of(0, 1));
+		return codeInfos.stream().findFirst().orElseThrow();
 	}
 
 	@Test
 	void addCodeTest() {
+		String codeName = getCodeName();
 		Code code = new Code();
-		code.setCodeName("지점타입");
+		code.setCodeName(codeName);
 		Code savedCode = codeRepository.save(code);
 		System.out.println("savedCode = " + savedCode);
+		assertThat(savedCode.getId()).isGreaterThan(0);
 
 		CodeInfo codeInfo = new CodeInfo();
 		codeInfo.setInfo("전국의 지점 모든 타입");
 		codeInfo.setCode(code);
 		CodeInfo savedCodeInfo = codeInfoRepository.save(codeInfo);
 		System.out.println("savedCodeInfo = " + savedCodeInfo);
+		assertThat(codeInfo.getId()).isGreaterThan(0);
 	}
+
+	private static String getCodeName() {
+		return UUID.randomUUID().toString().replace("-", "");
+	}
+
 }
