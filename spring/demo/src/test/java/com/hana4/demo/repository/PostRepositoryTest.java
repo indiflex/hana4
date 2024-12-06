@@ -9,15 +9,17 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import com.hana4.demo.entity.Post;
 
 import jakarta.persistence.EntityManager;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+// @DataJpaTest
+// @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@SpringBootTest
 public class PostRepositoryTest {
 	@Autowired
 	private PostRepository repository;
@@ -25,11 +27,42 @@ public class PostRepositoryTest {
 	@Autowired
 	EntityManager em;
 
-	private final static LocalDateTime dateTime = LocalDateTime.of(LocalDate.of(2024, 12, 5), LocalTime.of(12, 0));
+	private final static LocalDateTime dateTime = LocalDateTime.of(LocalDate.of(2024, 12, 6), LocalTime.of(12, 0));
+
+	private final static String WRITER = "세종대왕11";
+
+	@Test
+	void findByTitleLikeTest() {
+		final int countPerPage = 3;
+		final String searchStr = "title%";
+		long cnt = (long)Math.ceil((double)repository.countByTitleLike(searchStr) / (double)countPerPage);
+
+		Page<Post> posts = repository.findByTitleLike(searchStr, PageRequest.of(0, countPerPage));
+		System.out.println("totalPage = " + posts.getTotalPages());
+		System.out.println("posts = " + posts.getContent());
+		assertThat(posts.getTotalPages()).isEqualTo(cnt);
+	}
+
+	@Test
+	void findByTitleStartsWithTest() {
+		List<Post> posts = repository.findByTitleStartsWith("title");
+		List<Post> posts2 = repository.findByTitleStartingWith("title");
+		System.out.println("posts = " + posts);
+		System.out.println("posts2 = " + posts2);
+		assertThat(posts.stream().allMatch(post -> post.getTitle().toLowerCase().startsWith("title"))).isTrue();
+	}
+
+	@Test
+	void findByWriterTest() {
+		List<Post> byWriter = repository.findByWriter(WRITER);
+		System.out.println("byWriter = " + byWriter);
+		assertThat(byWriter.stream().allMatch(post -> post.getWriter().equals(WRITER))).isTrue();
+	}
 
 	@Test
 	void countCretedateTest() {
 		long cnt = repository.countByCreatedateLessThanEqual(dateTime);
+		System.out.println("repocnt = " + repository.count());
 		System.out.println("cnt = " + cnt);
 		assertThat(cnt).isGreaterThan(0);
 	}
@@ -61,6 +94,7 @@ public class PostRepositoryTest {
 
 		// Post savedPost = repository.save(post);
 		Post savedPost = repository.save(post);
+		System.out.println("repocnt = " + repository.count());
 		System.out.println("savedPost = " + savedPost);
 
 		assertThat(savedPost.getId()).isNotNull();
