@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hana4.demo.entity.Code;
 import com.hana4.demo.entity.CodeInfo;
+import com.hana4.demo.entity.SubCode;
 
 // @DataJpaTest
 // @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -19,7 +20,24 @@ public class CodeRepositoryTest {
 	@Autowired
 	CodeInfoRepository codeInfoRepository;
 
+	@Autowired
+	SubCodeRepository subCodeRepository;
+
 	private final static int ID = 2;
+
+	@Test
+	void addCodeWithSubCode() {
+		Code code = new Code();
+		code.setCodeName("고가등급");
+		codeRepository.save(code);
+
+		SubCode subCode = new SubCode();
+		subCode.setValue("S등급");
+		subCode.setCode(code);
+		subCodeRepository.save(subCode);
+
+		System.out.println("subCode = " + subCode);
+	}
 
 	@Test
 	void findCodeInfoTest() {

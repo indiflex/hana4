@@ -7,7 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,18 +20,16 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class CodeInfo extends BaseEntity {
+public class SubCode extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private long id;
 
-	@Column(nullable = false, length = 30)
-	private String info;
+	@Column(nullable = false, unique = true, length = 31)
+	private String value;
 
-	// @OneToOne(optional = false)
-	@OneToOne()
+	@ManyToOne()
 	@JoinColumn(name = "code",
-		foreignKey = @ForeignKey(name = "fk_CodeInfo_code"))
-	@ToString.Exclude
+		foreignKey = @ForeignKey(name = "fk_SubCode_code"))
 	private Code code;
 }
