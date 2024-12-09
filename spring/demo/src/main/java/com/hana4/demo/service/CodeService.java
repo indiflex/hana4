@@ -9,6 +9,8 @@ public interface CodeService {
 
 	public CodeDTO getCode(int id);
 
+	public CodeDTO findByName(String codeName);
+
 	public List<CodeDTO> getCodes();
 
 	public CodeDTO modifyCode(CodeDTO dto);

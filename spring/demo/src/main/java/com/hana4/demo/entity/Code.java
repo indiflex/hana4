@@ -46,7 +46,7 @@ public class Code extends BaseEntity {
 	private CodeInfo codeInfo;
 
 	@OneToMany(mappedBy = "code", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<SubCode> subcodes;
+	private List<SubCode> subcodes = new ArrayList<>();
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = {
 		CascadeType.PERSIST, CascadeType.MERGE})
