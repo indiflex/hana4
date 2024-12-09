@@ -9,4 +9,6 @@ import com.hana4.demo.entity.Code;
 
 public interface CodeRepository extends JpaRepository<Code, Integer> {
 	List<Code> findFirstByOrderById(Pageable pageable);
+
+	List<Code> findByCodeUsersNotEmpty();
 }

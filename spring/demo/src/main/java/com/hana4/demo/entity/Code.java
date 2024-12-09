@@ -45,10 +45,11 @@ public class Code extends BaseEntity {
 	@OneToOne(mappedBy = "code", cascade = CascadeType.ALL)
 	private CodeInfo codeInfo;
 
-	@OneToMany(mappedBy = "code", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "code", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<SubCode> subcodes;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = {
+		CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(name = "CodeUser",
 		joinColumns = @JoinColumn(name = "code"),
 		inverseJoinColumns = @JoinColumn(name = "user"))

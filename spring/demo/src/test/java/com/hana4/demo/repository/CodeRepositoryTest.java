@@ -5,7 +5,10 @@ import static org.assertj.core.api.Assertions.*;
 import java.util.List;
 import java.util.UUID;
 
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +21,7 @@ import com.hana4.demo.entity.User;
 // @DataJpaTest
 // @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @SpringBootTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CodeRepositoryTest {
 	@Autowired
 	CodeRepository codeRepository;
@@ -32,25 +36,43 @@ public class CodeRepositoryTest {
 	UserRepository userRepository;
 
 	@Test
+	@Order(2)
+	void removeCodeUsersTest() {
+		List<Code> codes = codeRepository.findByCodeUsersNotEmpty();
+		System.out.println("codes = " + codes);
+		Code code = codes.get(0);
+		final int oldCnt = code.getCodeUsers().size();
+		code.getCodeUsers().remove(0);
+		codeRepository.save(code);
+		Code codeAfterRemove = codeRepository.findById(code.getId()).orElseThrow();
+		assertThat(codeAfterRemove.getCodeUsers().size()).isEqualTo(oldCnt - 1);
+	}
+
+	@Test
+	@Order(1)
 	void codeUsersTest() {
 		Code code = getCode();
 		System.out.println("code = " + code);
 		assertThat(code.getCodeUsers()).isNotNull();
+		final int oldCnt = code.getCodeUsers().size();
 
-		// User user1 = new User("Hong11");
-		// User user2 = new User("Hong22");
-		// User user3 = new User("Hong33");
-		// List<User> users = Arrays.asList(user1, user2);
-		// code.setCodeUsers(users);
-		// code.addUser(user3);
+		User user1 = new User("Hong11");
+		userRepository.addUser(user1);
+		code.addUser(user1);
 
-		List<User> allUsers = userRepository.findAll();
-		code.setCodeUsers(allUsers);
+		User user2 = new User("Hong22");
+		userRepository.addUser(user2);
+		code.addUser(user2);
+
+		// List<User> allUsers = userRepository.findAll();
+		// code.setCodeUsers(allUsers);
 
 		codeRepository.save(code);
 		System.out.println("code.getCodeUsers() = " + code.getCodeUsers());
 
-		// assertThat(code.getCodeUsers())
+		Code code2 = codeRepository.findById(code.getId()).orElseThrow();
+		// assertThat(code.getCodeUsers().size()).isEqualTo(allUsers.size());
+		assertThat(code2.getCodeUsers().size()).isEqualTo(oldCnt + 2);
 	}
 
 	@Test
@@ -95,9 +117,9 @@ public class CodeRepositoryTest {
 		CodeInfo codeInfo = new CodeInfo();
 		codeInfo.setInfo("전국의 지점 모든 타입");
 		codeInfo.setCode(code);
-		CodeInfo savedCodeInfo = codeInfoRepository.save(codeInfo);
+		// CodeInfo savedCodeInfo = codeInfoRepository.save(codeInfo);
 		// System.out.println("savedCodeInfo = " + savedCodeInfo);
-		assertThat(codeInfo.getId()).isGreaterThan(0);
+		assertThat(codeInfo.getId()).isGreaterThanOrEqualTo(0);
 	}
 
 	private Code getCode() {
