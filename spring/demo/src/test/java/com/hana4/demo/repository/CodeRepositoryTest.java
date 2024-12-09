@@ -7,17 +7,17 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 
 import com.hana4.demo.entity.Code;
 import com.hana4.demo.entity.CodeInfo;
 import com.hana4.demo.entity.SubCode;
+import com.hana4.demo.entity.User;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-// @SpringBootTest
+// @DataJpaTest
+// @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@SpringBootTest
 public class CodeRepositoryTest {
 	@Autowired
 	CodeRepository codeRepository;
@@ -28,11 +28,29 @@ public class CodeRepositoryTest {
 	@Autowired
 	SubCodeRepository subCodeRepository;
 
+	@Autowired
+	UserRepository userRepository;
+
 	@Test
 	void codeUsersTest() {
 		Code code = getCode();
 		System.out.println("code = " + code);
 		assertThat(code.getCodeUsers()).isNotNull();
+
+		// User user1 = new User("Hong11");
+		// User user2 = new User("Hong22");
+		// User user3 = new User("Hong33");
+		// List<User> users = Arrays.asList(user1, user2);
+		// code.setCodeUsers(users);
+		// code.addUser(user3);
+
+		List<User> allUsers = userRepository.findAll();
+		code.setCodeUsers(allUsers);
+
+		codeRepository.save(code);
+		System.out.println("code.getCodeUsers() = " + code.getCodeUsers());
+
+		// assertThat(code.getCodeUsers())
 	}
 
 	@Test

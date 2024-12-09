@@ -8,6 +8,7 @@ import com.hana4.demo.dto.UserDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,11 +17,13 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "DemoUser")
 @Getter
 @Setter
+@ToString
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,6 +65,7 @@ public class User {
 		return UserDTO.builder().id(id).name(name).age(age).build();
 	}
 
-	@ManyToMany(mappedBy = "codeUsers")
+	@ManyToMany(mappedBy = "codeUsers", fetch = FetchType.LAZY)
+	@ToString.Exclude
 	private Set<Code> useCodes;
 }

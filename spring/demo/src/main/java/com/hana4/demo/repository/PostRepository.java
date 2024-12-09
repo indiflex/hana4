@@ -37,7 +37,7 @@ public interface PostRepository extends JpaRepository<Post, String> {
 		""")
 	List<Post> findByOldWriter(@Param("writer") String writer, @Param("dateTime") LocalDateTime dateTime);
 
-	@Query("select p.title, p.writer, p.createdate from Post p where p.writer = :writer")
+	@Query(value = "select p.title, p.writer, p.createdate from Post p where p.writer = :writer")
 	List<Object[]> findBySomeColumns(@Param("writer") String writer);
 
 }
