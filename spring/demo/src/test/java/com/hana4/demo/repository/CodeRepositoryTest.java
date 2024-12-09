@@ -28,7 +28,12 @@ public class CodeRepositoryTest {
 	@Autowired
 	SubCodeRepository subCodeRepository;
 
-	private final static int ID = 2;
+	@Test
+	void codeUsersTest() {
+		Code code = getCode();
+		System.out.println("code = " + code);
+		assertThat(code.getCodeUsers()).isNotNull();
+	}
 
 	@Test
 	void addCodeWithSubCode() {
@@ -60,17 +65,6 @@ public class CodeRepositoryTest {
 		assertThat(code.getCodeInfo()).isNotNull();
 	}
 
-	private Code getCode() {
-		List<Code> codes = codeRepository.findFirstByOrderById(PageRequest.of(0, 1));
-		System.out.println("codes = " + codes);
-		return codes.stream().findFirst().orElseThrow();
-	}
-
-	private CodeInfo getCodeInfo() {
-		List<CodeInfo> codeInfos = codeInfoRepository.findFirstByOrderById(PageRequest.of(0, 1));
-		return codeInfos.stream().findFirst().orElseThrow();
-	}
-
 	@Test
 	void addCodeTest() {
 		String codeName = getCodeName();
@@ -84,8 +78,19 @@ public class CodeRepositoryTest {
 		codeInfo.setInfo("전국의 지점 모든 타입");
 		codeInfo.setCode(code);
 		CodeInfo savedCodeInfo = codeInfoRepository.save(codeInfo);
-		System.out.println("savedCodeInfo = " + savedCodeInfo);
+		// System.out.println("savedCodeInfo = " + savedCodeInfo);
 		assertThat(codeInfo.getId()).isGreaterThan(0);
+	}
+
+	private Code getCode() {
+		List<Code> codes = codeRepository.findFirstByOrderById(PageRequest.of(0, 1));
+		// System.out.println("codes = " + codes);
+		return codes.stream().findFirst().orElseThrow();
+	}
+
+	private CodeInfo getCodeInfo() {
+		List<CodeInfo> codeInfos = codeInfoRepository.findFirstByOrderById(PageRequest.of(0, 1));
+		return codeInfos.stream().findFirst().orElseThrow();
 	}
 
 	private static String getCodeName() {

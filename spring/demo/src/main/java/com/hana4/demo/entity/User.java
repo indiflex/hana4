@@ -1,5 +1,7 @@
 package com.hana4.demo.entity;
 
+import java.util.Set;
+
 import org.hibernate.annotations.Comment;
 
 import com.hana4.demo.dto.UserDTO;
@@ -9,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.Getter;
@@ -58,4 +61,7 @@ public class User {
 	public UserDTO toDTO() {
 		return UserDTO.builder().id(id).name(name).age(age).build();
 	}
+
+	@ManyToMany(mappedBy = "codeUsers")
+	private Set<Code> useCodes;
 }
