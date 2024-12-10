@@ -11,13 +11,18 @@ public class CodeMapper {
 		if (Objects.isNull(code)) {
 			return null;
 		}
-		
-		return CodeDTO.builder()
+
+		CodeDTO dto = CodeDTO.builder()
 			.id(code.getId())
 			.codeName(code.getCodeName())
 			.createAt(code.getCreateAt())
 			.updateAt(code.getUpdateAt())
-			.subcodes(code.getSubcodes().stream().map(SubCodeMapper::toDTO).toList()).build();
+			.build();
+
+		dto.setSubcodes(code.getSubcodes().stream().map(
+			scode -> SubCodeMapper.toDTO(scode, dto)).toList());
+
+		return dto;
 	}
 
 	public static Code toEntity(CodeDTO dto) {
@@ -28,7 +33,11 @@ public class CodeMapper {
 		code.setId(dto.getId());
 		code.setCodeName(dto.getCodeName());
 		if (!Objects.isNull(dto.getSubcodes())) {
-			List<SubCode> subCodes = dto.getSubcodes().stream().map(SubCodeMapper::toEntity).toList();
+			List<SubCode> subCodes = dto.getSubcodes()
+				.stream()
+				.map(scode
+					-> SubCodeMapper.toEntity(scode, code))
+				.toList();
 			code.setSubcodes(subCodes);
 		}
 

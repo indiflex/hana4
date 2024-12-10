@@ -29,11 +29,11 @@ public class CodeServiceImpl implements CodeService {
 			return null;
 		}
 
+		repository.save(code);
 		for (SubCode subCode : code.getSubcodes()) {
 			subCode.setCode(code);
 			subCodeRepository.save(subCode);
 		}
-		repository.save(code);
 
 		return CodeMapper.toDTO(code);
 	}

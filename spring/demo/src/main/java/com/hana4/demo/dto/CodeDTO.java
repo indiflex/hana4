@@ -2,6 +2,8 @@ package com.hana4.demo.dto;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +21,8 @@ public class CodeDTO extends CodeBaseDTO {
 	private int id;
 	private String codeName;
 	// private CodeInfo codeInfo;
+
+	@JsonManagedReference
 	private List<SubCodeDTO> subcodes;
 	// private List<User> codeUsers = new ArrayList<>();
 

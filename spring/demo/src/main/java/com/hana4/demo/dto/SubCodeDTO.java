@@ -1,5 +1,7 @@
 package com.hana4.demo.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,6 +18,8 @@ import lombok.ToString;
 public class SubCodeDTO {
 	private long id;
 	private String value;
+
+	@JsonBackReference
 	private CodeDTO code;
 
 	public SubCodeDTO(String value) {
