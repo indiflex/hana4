@@ -17,4 +17,13 @@ public class SubCodeDTO {
 	private long id;
 	private String value;
 	private CodeDTO code;
+
+	public SubCodeDTO(String value) {
+		this.value = value;
+	}
+
+	public SubCodeDTO(String value, CodeDTO code) {
+		this.value = value;
+		this.code = code;
+	}
 }

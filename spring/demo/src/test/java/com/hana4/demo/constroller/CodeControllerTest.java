@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hana4.demo.dto.CodeDTO;
+import com.hana4.demo.dto.SubCodeDTO;
 import com.hana4.demo.repository.CodeRepository;
 import com.hana4.demo.service.CodeService;
 
@@ -46,11 +47,16 @@ public class CodeControllerTest {
 		codeRepository.deleteAll();
 		for (int i = 0; i < 2; i++) {
 			CodeDTO dto = new CodeDTO("Code" + i);
+			dto.setSubcodes(List.of(
+				new SubCodeDTO("ValueX" + i),
+				new SubCodeDTO("ValueY" + i)
+			));
 			sampleCodes.add(dto);
 		}
 	}
 
 	@Test
+	@Order(5)
 	void removeCodeTest() throws Exception {
 		List<CodeDTO> codes = codeService.getCodes();
 		CodeDTO dto = codes.get(0);
@@ -115,6 +121,7 @@ public class CodeControllerTest {
 
 		for (CodeDTO dto : sampleCodes) {
 			String reqBody = objectMapper.writeValueAsString(dto);
+			System.out.println("reqBody = " + reqBody);
 
 			final ResultActions result = mockMvc.perform(
 				post(url)

@@ -1,25 +1,41 @@
 package com.hana4.demo.service;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 
 import com.hana4.demo.dto.CodeDTO;
 import com.hana4.demo.dto.CodeMapper;
 import com.hana4.demo.entity.Code;
+import com.hana4.demo.entity.SubCode;
 import com.hana4.demo.repository.CodeRepository;
+import com.hana4.demo.repository.SubCodeRepository;
 
 @Service
 public class CodeServiceImpl implements CodeService {
 	private final CodeRepository repository;
+	private final SubCodeRepository subCodeRepository;
 
-	public CodeServiceImpl(CodeRepository repository) {
+	public CodeServiceImpl(CodeRepository repository, SubCodeRepository subCodeRepository) {
 		this.repository = repository;
+		this.subCodeRepository = subCodeRepository;
 	}
 
 	@Override
 	public CodeDTO addCode(CodeDTO dto) {
-		return CodeMapper.toDTO(repository.save(CodeMapper.toEntity(dto)));
+		Code code = CodeMapper.toEntity(dto);
+		if (Objects.isNull(dto) || Objects.isNull(code)) {
+			return null;
+		}
+
+		for (SubCode subCode : code.getSubcodes()) {
+			subCode.setCode(code);
+			subCodeRepository.save(subCode);
+		}
+		repository.save(code);
+
+		return CodeMapper.toDTO(code);
 	}
 
 	@Override
