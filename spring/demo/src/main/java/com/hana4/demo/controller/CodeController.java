@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hana4.demo.dto.CodeDTO;
+import com.hana4.demo.dto.SubCodeDTO;
 import com.hana4.demo.service.CodeService;
 
 @RestController
@@ -48,5 +49,20 @@ public class CodeController {
 	@DeleteMapping("/{id}")
 	public Long removeCode(@PathVariable("id") int id) {
 		return codeService.removeCode(id);
+	}
+
+	/**
+	 * SubCode Area
+	 */
+	@PostMapping("/{id}/subcodes")
+	public SubCodeDTO addSubCode(@PathVariable("id") int codeId, @RequestBody SubCodeDTO subCodeDTO) {
+		CodeDTO codeDTO = codeService.getCode(codeId);
+		subCodeDTO.setCode(codeDTO);
+		return codeService.addSubCode(subCodeDTO);
+	}
+
+	@GetMapping("/{id}/subcodes")
+	public List<SubCodeDTO> getSubCodes(@PathVariable("id") int codeId) {
+		return codeService.getSubCodes(codeId);
 	}
 }

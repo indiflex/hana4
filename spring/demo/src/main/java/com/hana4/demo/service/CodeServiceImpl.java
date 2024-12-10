@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.hana4.demo.dto.CodeDTO;
 import com.hana4.demo.dto.CodeMapper;
+import com.hana4.demo.dto.SubCodeDTO;
+import com.hana4.demo.dto.SubCodeMapper;
 import com.hana4.demo.entity.Code;
 import com.hana4.demo.entity.SubCode;
 import com.hana4.demo.repository.CodeRepository;
@@ -55,6 +57,11 @@ public class CodeServiceImpl implements CodeService {
 	}
 
 	@Override
+	public List<CodeDTO> getCodesHaveSubCodes() {
+		return repository.findBySubcodesIsNotEmpty().stream().map(CodeMapper::toDTO).toList();
+	}
+
+	@Override
 	public CodeDTO modifyCode(CodeDTO dto) {
 		Code code = repository.findById(dto.getId()).orElseThrow();
 		code.setCodeName(dto.getCodeName());
@@ -66,4 +73,16 @@ public class CodeServiceImpl implements CodeService {
 		repository.deleteById(id);
 		return repository.count();
 	}
+
+	@Override
+	public SubCodeDTO addSubCode(SubCodeDTO subCodeDTO) {
+		return SubCodeMapper.toDTO(subCodeRepository.save(SubCodeMapper.toEntity(subCodeDTO)));
+	}
+
+	@Override
+	public List<SubCodeDTO> getSubCodes(int codeId) {
+		Code code = repository.findById(codeId).orElseThrow();
+		return code.getSubcodes().stream().map(SubCodeMapper::toDTO).toList();
+	}
+
 }

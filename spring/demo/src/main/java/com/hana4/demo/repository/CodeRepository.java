@@ -13,5 +13,7 @@ public interface CodeRepository extends JpaRepository<Code, Integer> {
 
 	List<Code> findByCodeUsersNotEmpty();
 
+	List<Code> findBySubcodesIsNotEmpty();
+
 	Optional<Code> findByCodeName(String codeName);
 }

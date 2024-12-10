@@ -60,18 +60,51 @@ public class CodeControllerTest {
 	}
 
 	@Test
+	@Order(8)
+	void modifySubcodeTest() throws Exception {
+		CodeDTO dto = getCodeDTO(true);
+		final SubCodeDTO subCode = dto.getSubcodes().get(0);
+		subCode.setValue(subCode.getValue().substring(5) + "New!!");
+		final String bodyStr = objectMapper.writeValueAsString(subCode);
+
+		final String url = "/codes/" + dto.getId() + "/subcodes/" + subCode.getId();
+
+		mockMvc.perform(patch(url).contentType(MediaType.APPLICATION_JSON).content(bodyStr)).andExpect(status().isOk())
+			.andDo(print());
+
+	}
+
+	@Test
+	@Order(7)
+	void getSubCodesTest() throws Exception {
+		CodeDTO dto = getCodeDTO();
+		final int subCodeCnt = dto.getSubcodes().size();
+
+		final String url = "/codes/" + dto.getId() + "/subcodes";
+
+		mockMvc.perform(get(url)).andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			.andExpect(jsonPath("$[0].id").isNotEmpty())
+			.andExpect(jsonPath("$.length()").value(subCodeCnt))
+			.andDo(print());
+	}
+
+	@Test
 	@Order(6)
 	void addSubCodeTest() throws Exception {
 		CodeDTO dto = getCodeDTO();
 		final String url = "/codes/" + dto.getId() + "/subcodes";
 
-		SubCodeDTO subCodeDTO = new SubCodeDTO(getUuid());
-		String uuid = getUuid();
-		System.out.println("getUuid() = " + uuid);
-		System.out.println("getUuid() = " + uuid.substring(1));
+		String value = getUuid();
+		SubCodeDTO subCodeDTO = new SubCodeDTO(value);
 		String bodyStr = objectMapper.writeValueAsString(subCodeDTO);
 
-		// mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON).content(bodyStr));
+		mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON).content(bodyStr))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			.andExpect(jsonPath("$.id").isNotEmpty())
+			.andExpect(jsonPath("$.value").value(value))
+			.andDo(print());
 	}
 
 	@Test
@@ -154,7 +187,12 @@ public class CodeControllerTest {
 	}
 
 	private CodeDTO getCodeDTO() {
-		List<CodeDTO> codes = codeService.getCodes();
+		return getCodeDTO(false);
+	}
+
+	private CodeDTO getCodeDTO(boolean hasSubCodes) {
+		List<CodeDTO> codes = hasSubCodes ?
+			codeService.getCodesHaveSubCodes() : codeService.getCodes();
 		return codes.get(0);
 	}
 
