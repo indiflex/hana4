@@ -12,6 +12,8 @@ public class SubCodeMapper {
 		return SubCodeDTO.builder()
 			.id(subCode.getId())
 			.value(subCode.getValue())
+			.createAt(subCode.getCreateAt())
+			.updateAt(subCode.getUpdateAt())
 			.code(codeDTO)
 			.build();
 	}

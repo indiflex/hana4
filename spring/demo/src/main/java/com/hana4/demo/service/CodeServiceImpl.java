@@ -71,7 +71,8 @@ public class CodeServiceImpl implements CodeService {
 	@Override
 	public long removeCode(int id) {
 		repository.deleteById(id);
-		return repository.count();
+		// return repository.count();
+		return 1L;
 	}
 
 	@Override
@@ -83,6 +84,28 @@ public class CodeServiceImpl implements CodeService {
 	public List<SubCodeDTO> getSubCodes(int codeId) {
 		Code code = repository.findById(codeId).orElseThrow();
 		return code.getSubcodes().stream().map(SubCodeMapper::toDTO).toList();
+	}
+
+	@Override
+	public SubCodeDTO modifySubCode(SubCodeDTO dto) {
+		SubCode subCode = subCodeRepository.findById(dto.getId()).orElseThrow();
+		subCode.setValue(dto.getValue());
+		subCodeRepository.save(subCode);
+		return SubCodeMapper.toDTO(subCode);
+	}
+
+	@Override
+	public Long removeSubCode(long subCodeId) {
+		SubCode subCode = subCodeRepository.findById(subCodeId).orElseThrow();
+		Code code = repository.findById(subCode.getCode().getId()).orElseThrow();
+
+		final boolean didRemove = code.getSubcodes().remove(subCode);
+		// subCode.setCode(null);
+
+		subCodeRepository.delete(subCode);
+		// repository.save(code);
+
+		return didRemove ? 1L : 0L;
 	}
 
 }

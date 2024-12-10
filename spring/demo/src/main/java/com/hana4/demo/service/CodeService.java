@@ -24,4 +24,7 @@ public interface CodeService {
 
 	List<SubCodeDTO> getSubCodes(int codeId);
 
+	SubCodeDTO modifySubCode(SubCodeDTO dto);
+
+	Long removeSubCode(long subCodeId);
 }

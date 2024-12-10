@@ -17,6 +17,7 @@ desc CodeUser;
 -- drop table CodeUser;
 select * from Code;
 select * from SubCode;
+-- truncate table SubCode;
 
 select * from CodeInfo;
 select * from CodeUser;

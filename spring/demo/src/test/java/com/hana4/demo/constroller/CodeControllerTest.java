@@ -1,5 +1,6 @@
 package com.hana4.demo.constroller;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -46,8 +47,8 @@ public class CodeControllerTest {
 	void BeforeAll(@Autowired CodeRepository codeRepository) {
 		System.out.println("CodeControllerTest.BeforeAll - -");
 
-		// clean
-		// codeRepository.deleteAll();
+		// cleaqn
+		codeRepository.deleteAll();
 
 		for (int i = 0; i < 2; i++) {
 			CodeDTO dto = new CodeDTO("Code" + i);
@@ -60,16 +61,50 @@ public class CodeControllerTest {
 	}
 
 	@Test
-	@Order(8)
-	void modifySubcodeTest() throws Exception {
+	@Order(9)
+	void removeSubCodeTest() throws Exception {
 		CodeDTO dto = getCodeDTO(true);
-		final SubCodeDTO subCode = dto.getSubcodes().get(0);
-		subCode.setValue(subCode.getValue().substring(5) + "New!!");
-		final String bodyStr = objectMapper.writeValueAsString(subCode);
+		final List<SubCodeDTO> subCodes = dto.getSubcodes();
+		final SubCodeDTO subCode = subCodes.get(0);
 
 		final String url = "/codes/" + dto.getId() + "/subcodes/" + subCode.getId();
+		// final String url = "/codes/subcodes/" + subCode.getId();
 
-		mockMvc.perform(patch(url).contentType(MediaType.APPLICATION_JSON).content(bodyStr)).andExpect(status().isOk())
+		mockMvc.perform(delete(url))
+			.andExpect(status().is(200))
+			.andExpect(content().string("1"))
+			.andDo(print());
+
+		final int afterRemoveCnt = getCodeDTO(true).getSubcodes().size();
+		// System.out.println("--------->> afterRemoveCnt = " + afterRemoveCnt);
+		assertThat(afterRemoveCnt).isLessThan(subCodes.size());
+	}
+
+	@Test
+	@Order(8)
+	void modifySubCodeTest() throws Exception {
+		CodeDTO dto = getCodeDTO(true);
+		final SubCodeDTO subCode = dto.getSubcodes().get(0);
+		final String newValue = subCode.getValue() + "New!!";
+		final int newValueLen = newValue.length();
+		if (newValueLen > 32) {
+			subCode.setValue(newValue.substring(newValueLen - 32));
+		} else {
+			subCode.setValue(newValue);
+		}
+		final String bodyStr = objectMapper.writeValueAsString(subCode);
+
+		// final String url = "/codes/" + dto.getId() + "/subcodes/" + subCode.getId();
+		final String url = "/codes/subcodes/" + subCode.getId();
+
+		mockMvc.perform(patch(url).contentType(MediaType.APPLICATION_JSON).content(bodyStr))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			.andExpect(jsonPath("$.id", subCode.getId()).exists())
+			.andExpect(jsonPath("$.value").value(subCode.getValue()))
+			.andExpect(jsonPath("$.value", subCode.getValue()).exists())
+			.andExpect(jsonPath("$.createAt", subCode.getCreateAt()).exists())
+			// .andExpect(jsonPath("$.updateAt").value(not(subCode.getUpdateAt())))
 			.andDo(print());
 
 	}

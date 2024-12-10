@@ -65,4 +65,15 @@ public class CodeController {
 	public List<SubCodeDTO> getSubCodes(@PathVariable("id") int codeId) {
 		return codeService.getSubCodes(codeId);
 	}
+
+	@PatchMapping(value = {"/{id}/subcodes/{sid}", "/subcodes/{sid}"})
+	public SubCodeDTO modifySubCode(@PathVariable("sid") long subCodeId, @RequestBody SubCodeDTO dto) {
+		dto.setId(subCodeId);
+		return codeService.modifySubCode(dto);
+	}
+
+	@DeleteMapping(value = {"/{id}/subcodes/{sid}", "/subcodes/{sid}"})
+	public Long removeSubCode(@PathVariable("id") int codeId, @PathVariable("sid") long subCodeId) {
+		return codeService.removeSubCode(subCodeId);
+	}
 }
