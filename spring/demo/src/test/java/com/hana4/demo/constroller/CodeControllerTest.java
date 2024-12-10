@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -44,7 +45,10 @@ public class CodeControllerTest {
 	@BeforeAll
 	void BeforeAll(@Autowired CodeRepository codeRepository) {
 		System.out.println("CodeControllerTest.BeforeAll - -");
-		codeRepository.deleteAll();
+
+		// clean
+		// codeRepository.deleteAll();
+
 		for (int i = 0; i < 2; i++) {
 			CodeDTO dto = new CodeDTO("Code" + i);
 			dto.setSubcodes(List.of(
@@ -56,10 +60,24 @@ public class CodeControllerTest {
 	}
 
 	@Test
+	@Order(6)
+	void addSubCodeTest() throws Exception {
+		CodeDTO dto = getCodeDTO();
+		final String url = "/codes/" + dto.getId() + "/subcodes";
+
+		SubCodeDTO subCodeDTO = new SubCodeDTO(getUuid());
+		String uuid = getUuid();
+		System.out.println("getUuid() = " + uuid);
+		System.out.println("getUuid() = " + uuid.substring(1));
+		String bodyStr = objectMapper.writeValueAsString(subCodeDTO);
+
+		// mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON).content(bodyStr));
+	}
+
+	@Test
 	@Order(5)
 	void removeCodeTest() throws Exception {
-		List<CodeDTO> codes = codeService.getCodes();
-		CodeDTO dto = codes.get(0);
+		CodeDTO dto = getCodeDTO();
 		final String url = "/codes/" + dto.getId();
 
 		mockMvc.perform(delete(url))
@@ -71,8 +89,7 @@ public class CodeControllerTest {
 	@Test
 	@Order(4)
 	void getCodeTest() throws Exception {
-		List<CodeDTO> codes = codeService.getCodes();
-		CodeDTO dto = codes.get(0);
+		CodeDTO dto = getCodeDTO();
 		final String url = "/codes/" + dto.getId();
 		mockMvc.perform(get(url)).andExpect(status().isOk())
 			.andExpect(content().json(objectMapper.writeValueAsString(dto)))
@@ -134,5 +151,14 @@ public class CodeControllerTest {
 				.andExpect(jsonPath("$.codeName").value(dto.getCodeName()))
 				.andDo(print());
 		}
+	}
+
+	private CodeDTO getCodeDTO() {
+		List<CodeDTO> codes = codeService.getCodes();
+		return codes.get(0);
+	}
+
+	private String getUuid() {
+		return UUID.randomUUID().toString().replace("-", "");
 	}
 }
