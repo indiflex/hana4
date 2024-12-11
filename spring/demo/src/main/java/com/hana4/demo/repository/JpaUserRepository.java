@@ -69,7 +69,8 @@ public class JpaUserRepository implements UserRepository {
 		System.out.println("IIIIIIIIIIIIIIIIIIIII");
 		String[] sqls = new String[] {
 			"create table if not exists DemoUserBak AS select * from DemoUser",
-			"truncate table DemoUser"
+			"delete from DemoUser where id > 0",
+			"alter table DemoUser auto_increment = 1"
 		};
 
 		for (String sql : sqls) {
@@ -81,7 +82,7 @@ public class JpaUserRepository implements UserRepository {
 	public void destroy() {
 		System.out.println("DDDDDDDDDDDDDDDDDDD");
 		String[] sqls = new String[] {
-			"truncate table DemoUser",
+			"delete from DemoUser where id > 0",
 			"insert into DemoUser select * from DemoUserBak",
 			"drop table DemoUserBak"
 		};

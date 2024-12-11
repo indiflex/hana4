@@ -36,7 +36,7 @@ public class CodeRepositoryTest {
 	UserRepository userRepository;
 
 	@Test
-	@Order(2)
+	@Order(7)
 	void removeCodeUsersTest() {
 		List<Code> codes = codeRepository.findByCodeUsersNotEmpty();
 		System.out.println("codes = " + codes);
@@ -49,7 +49,7 @@ public class CodeRepositoryTest {
 	}
 
 	@Test
-	@Order(1)
+	@Order(6)
 	void codeUsersTest() {
 		Code code = getCode();
 		System.out.println("code = " + code);
@@ -76,6 +76,7 @@ public class CodeRepositoryTest {
 	}
 
 	@Test
+	@Order(5)
 	void addCodeWithSubCode() {
 		Code code = new Code();
 		code.setCodeName(getCodeName());
@@ -92,6 +93,7 @@ public class CodeRepositoryTest {
 	}
 
 	@Test
+	@Order(2)
 	void findCodeInfoTest() {
 		CodeInfo codeInfo = getCodeInfo();
 		// System.out.println("codeInfo = " + codeInfo);
@@ -99,13 +101,16 @@ public class CodeRepositoryTest {
 	}
 
 	@Test
+	@Order(2)
 	void findCodeTest() {
-		Code code = getCode();
+		// Code code = getCode();
+		Code code = getCodeHasCodeInfo();
 		assertThat(code).isNotNull();
 		assertThat(code.getCodeInfo()).isNotNull();
 	}
 
 	@Test
+	@Order(1)
 	void addCodeTest() {
 		String codeName = getCodeName();
 		Code code = new Code();
@@ -117,13 +122,19 @@ public class CodeRepositoryTest {
 		CodeInfo codeInfo = new CodeInfo();
 		codeInfo.setInfo("전국의 지점 모든 타입");
 		codeInfo.setCode(code);
-		// CodeInfo savedCodeInfo = codeInfoRepository.save(codeInfo);
+		CodeInfo savedCodeInfo = codeInfoRepository.save(codeInfo);
 		// System.out.println("savedCodeInfo = " + savedCodeInfo);
 		assertThat(codeInfo.getId()).isGreaterThanOrEqualTo(0);
 	}
 
 	private Code getCode() {
 		List<Code> codes = codeRepository.findFirstByOrderById(PageRequest.of(0, 1));
+		// System.out.println("codes = " + codes);
+		return codes.stream().findFirst().orElseThrow();
+	}
+
+	private Code getCodeHasCodeInfo() {
+		List<Code> codes = codeRepository.findFirstByCodeInfoNotNull(PageRequest.of(0, 1));
 		// System.out.println("codes = " + codes);
 		return codes.stream().findFirst().orElseThrow();
 	}
