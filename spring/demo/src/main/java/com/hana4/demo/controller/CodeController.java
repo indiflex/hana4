@@ -1,6 +1,8 @@
 package com.hana4.demo.controller;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hana4.demo.dto.CodeDTO;
 import com.hana4.demo.dto.SubCodeDTO;
 import com.hana4.demo.service.CodeService;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/codes")
@@ -31,8 +35,15 @@ public class CodeController {
 	}
 
 	@GetMapping("/{id}")
-	public CodeDTO getCode(@PathVariable("id") int id) {
-		return codeService.getCode(id);
+	public CodeDTO getCode(@PathVariable("id") int id, HttpServletResponse res) throws IOException {
+		try {
+			return codeService.getCode(id);
+		} catch (NoSuchElementException nsee) {
+			res.sendError(404, id + " Code is not found!");
+		} catch (Exception e) {
+			res.sendError(500, e.getMessage());
+		}
+		return null;
 	}
 
 	@PostMapping
@@ -62,7 +73,7 @@ public class CodeController {
 	}
 
 	@GetMapping("/{id}/subcodes")
-	public List<SubCodeDTO> getSubCodes(@PathVariable("id") int codeId) {
+	public List<SubCodeDTO> getSubCodes(@PathVariable("id") int codeId, HttpServletResponse res) throws IOException {
 		return codeService.getSubCodes(codeId);
 	}
 
