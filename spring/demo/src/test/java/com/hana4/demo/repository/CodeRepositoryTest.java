@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 
 import com.hana4.demo.entity.Code;
 import com.hana4.demo.entity.CodeInfo;
+import com.hana4.demo.entity.QCode;
 import com.hana4.demo.entity.SubCode;
 import com.hana4.demo.entity.User;
 
@@ -34,6 +35,17 @@ public class CodeRepositoryTest {
 
 	@Autowired
 	UserRepository userRepository;
+
+	@Test
+	void codeListQTest() {
+		QCode code = QCode.code;
+		Iterable<Code> codes = codeRepository.findAll(
+			code.codeName.contains("1").and(code.id.between(30, 31))
+		);
+		// System.out.println("codes = " + codes);
+		codes.forEach(System.out::println);
+		assertThat(codes).isNotEmpty();
+	}
 
 	@Test
 	@Order(7)

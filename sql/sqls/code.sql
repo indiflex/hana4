@@ -2,9 +2,12 @@ desc Code;
 desc CodeInfo;
 desc SubCode;
 
+desc Post;
+
 select * from Code;
 alter table SubCode modify column value varchar(32) not null;
 select * from CodeInfo;
+select * from Code c left join CodeInfo ci on c.id = ci.code;
 select * from SubCode;
 
 select *
