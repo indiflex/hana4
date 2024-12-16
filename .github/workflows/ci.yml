@@ -22,7 +22,7 @@ jobs:
         run: ls -al
 
       - name: building
-        run: chmod + x ./builddemo.sh
+        run: chmod +x ./builddemo.sh
 
       - name: build
         run: ./builddemo.sh
