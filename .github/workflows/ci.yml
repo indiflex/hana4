@@ -18,6 +18,9 @@ jobs:
       - name: mv to demo
         run: cd spring/demo
 
+      - name: listing
+        run: ls -al
+
       - name: grant exe
         run: chmod +x gradlew
 
