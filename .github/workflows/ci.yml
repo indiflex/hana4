@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - name: mv to demo
-        run: pwd
+        run: ls -al 
 
       - name: grant exe
         run: chmod +x gradlew
