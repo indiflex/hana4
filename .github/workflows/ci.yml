@@ -8,6 +8,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: mv to demo
+        run: cd spring/demo
+
       - name: grant exe
         run: chmod +x gradlew
 
