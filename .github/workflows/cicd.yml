@@ -38,6 +38,10 @@ jobs:
         working-directory: my-app
         run: pnpm install
 
+      - name: set .env
+        working-directory: my-app
+        run: echo "${{ secrets.ENV }}" > ./.env
+        
       - name: Build with Next.js
         working-directory: my-app
         run: pnpm next build
@@ -50,9 +54,6 @@ jobs:
 #        working-directory: spring/demo
 #        run: echo "${{ secrets.APPLICATION }}" >> ./src/main/resources/application.properties
 
-      - name: set .env
-        working-directory: my-app
-        run: echo "${{ secrets.ENV }}" > ./.env
 
 #      - name: grant exe
 #        working-directory: spring/demo
