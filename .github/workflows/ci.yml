@@ -15,14 +15,14 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: mv to demo
-        run: cd spring/demo
-
       - name: listing
+        working-directory: spring/demo
         run: ls -al
 
       - name: grant exe
+        working-directory: spring/demo
         run: chmod +x gradlew
 
       - name: build with gradle
+        working-directory: spring/demo
         run: ./gradlew clean build
