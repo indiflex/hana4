@@ -31,10 +31,10 @@ jobs:
 
       - name: Install Node
         uses: actions/setup-node@v4
-        working-directory: my-app
         with:
           node-version: 21
           cache: "pnpm"
+        working-directory: my-app
 
       - name: Install dependencies
         working-directory: my-app
