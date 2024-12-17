@@ -30,11 +30,10 @@ jobs:
           static_site_generator: next
 
       - name: Install Node
-        working-directory: my-app
         uses: actions/setup-node@v4
         with:
           node-version: 21
-          cache: "pnpm"
+#          cache: "pnpm"
 
       - name: Install dependencies
         working-directory: my-app
