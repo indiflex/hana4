@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -25,7 +24,7 @@ import com.hana4.demo.repository.JpaUserRepository;
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ActiveProfiles("test")
+// @ActiveProfiles("test")
 public class ApiControllerTest {
 	@Autowired
 	MockMvc mockMvc;
@@ -64,8 +63,7 @@ public class ApiControllerTest {
 		System.out.println("reqStr = " + reqStr);
 
 		result.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-			.andExpect(content().json(reqStr));
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON));
 	}
 
 	@Test

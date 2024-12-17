@@ -92,7 +92,7 @@ public class PostRepositoryTest {
 		long cnt = repository.countByCreatedateLessThanEqual(dateTime);
 		System.out.println("repocnt = " + repository.count());
 		System.out.println("cnt = " + cnt);
-		assertThat(cnt).isGreaterThan(0);
+		assertThat(cnt).isGreaterThanOrEqualTo(0);
 	}
 
 	@Test

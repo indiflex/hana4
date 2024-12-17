@@ -66,29 +66,29 @@ public class JpaUserRepository implements UserRepository {
 
 	@Override
 	public void initialize() {
-		System.out.println("IIIIIIIIIIIIIIIIIIIII");
-		String[] sqls = new String[] {
-			"create table if not exists DemoUserBak AS select * from DemoUser",
-			"delete from DemoUser where id > 0",
-			"alter table DemoUser auto_increment = 1"
-		};
-
-		for (String sql : sqls) {
-			em.createNativeQuery(sql).executeUpdate();
-		}
+		// System.out.println("IIIIIIIIIIIIIIIIIIIII");
+		// String[] sqls = new String[] {
+		// 	"create table if not exists DemoUserBak AS select * from DemoUser",
+		// 	"delete from DemoUser where id > 0",
+		// 	"alter table DemoUser auto_increment = 1"
+		// };
+		//
+		// for (String sql : sqls) {
+		// 	em.createNativeQuery(sql).executeUpdate();
+		// }
 	}
 
 	@Override
 	public void destroy() {
-		System.out.println("DDDDDDDDDDDDDDDDDDD");
-		String[] sqls = new String[] {
-			"delete from DemoUser where id > 0",
-			"insert into DemoUser select * from DemoUserBak",
-			"drop table DemoUserBak"
-		};
-
-		for (String sql : sqls) {
-			em.createNativeQuery(sql).executeUpdate();
-		}
+		// System.out.println("DDDDDDDDDDDDDDDDDDD");
+		// String[] sqls = new String[] {
+		// 	"delete from DemoUser where id > 0",
+		// 	"insert into DemoUser select * from DemoUserBak",
+		// 	"drop table DemoUserBak"
+		// };
+		//
+		// for (String sql : sqls) {
+		// 	em.createNativeQuery(sql).executeUpdate();
+		// }
 	}
 }
