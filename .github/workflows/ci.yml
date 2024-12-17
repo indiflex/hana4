@@ -15,9 +15,13 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: listing
+      - name: set props
         working-directory: spring/demo
-        run: ls -al
+        run: echo "${{ secrets.APPLICATION }}" >> ./src/main/resources/application.properties
+
+      - name: confirm props
+        working-directory: spring/demo
+        run: cat ./src/main/resources/application.properties
 
       - name: grant exe
         working-directory: spring/demo
