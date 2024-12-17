@@ -41,7 +41,7 @@ jobs:
       - name: set .env
         working-directory: my-app
         run: echo "${{ secrets.ENV }}" > ./.env
-        
+
       - name: Build with Next.js
         working-directory: my-app
         run: pnpm next build
@@ -87,9 +87,10 @@ jobs:
         run: |
           scp my-app/next.zip ec2-user@${{ secrets.WAS }}:/home/ec2-user/workspace/
 
-      - name: restart java
+      - name: restart next
         run: |
           ssh ec2-user@${{ secrets.WAS }} '
-            cd /home/ec2-user/bin &&
-            ./restart.sh
+            cd /home/ec2-user/workspace &&
+            unzip next.zip -d /home/ec2-user/workspace/hana4/my-app &&
+            pm2 reload 1
           '
