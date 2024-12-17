@@ -19,10 +19,6 @@ jobs:
         working-directory: spring/demo
         run: echo "${{ secrets.APPLICATION }}" >> ./src/main/resources/application.properties
 
-      - name: confirm props
-        working-directory: spring/demo
-        run: cat ./src/main/resources/application.properties
-
       - name: grant exe
         working-directory: spring/demo
         run: chmod +x gradlew
