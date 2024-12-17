@@ -30,7 +30,6 @@ jobs:
           static_site_generator: next
 
       - name: Install Node
-        working-directory: my-app
         uses: actions/setup-node@v4
         with:
           node-version: 21
