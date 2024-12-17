@@ -91,6 +91,7 @@ jobs:
         run: |
           ssh ec2-user@${{ secrets.WAS }} '
             cd /home/ec2-user/workspace &&
+            rm -rf /home/ec2-user/workspace/hana4/my-app/.next
             unzip next.zip -d /home/ec2-user/workspace/hana4/my-app &&
             pm2 reload 1
           '
