@@ -33,7 +33,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 21
-#          cache: "pnpm"
 
       - name: Install dependencies
         working-directory: my-app
@@ -45,11 +44,15 @@ jobs:
 
       - name: zip next
         working-directory: my-app
-        run: zip -r next.zip .next
+        run: zip -rq next.zip .next
 
 #      - name: set props
 #        working-directory: spring/demo
 #        run: echo "${{ secrets.APPLICATION }}" >> ./src/main/resources/application.properties
+
+      - name: set .env
+        working-directory: my-app
+        run: echo "${{ secrets.ENV }}" > ./.env
 
 #      - name: grant exe
 #        working-directory: spring/demo
@@ -78,9 +81,10 @@ jobs:
 #            ./restart.sh
 #          '
 
-      - name: scp jar to was
+
+      - name: scp next to was
         run: |
-          scp spring/demo/build/libs/*.jar ec2-user@${{ secrets.WAS }}:/home/ec2-user/workspace/hana4.jar
+          scp my-app/next.zip ec2-user@${{ secrets.WAS }}:/home/ec2-user/workspace/
 
       - name: restart java
         run: |
@@ -88,7 +92,3 @@ jobs:
             cd /home/ec2-user/bin &&
             ./restart.sh
           '
-
-      - name: scp next to was
-        run: |
-          scp my-app/next.zip ec2-user@${{ secrets.WAS }}:/home/ec2-user/workspace/
