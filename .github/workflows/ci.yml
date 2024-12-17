@@ -39,6 +39,6 @@ jobs:
           ssh-keyscan ${{ secrets.WAS }} >> ~/.ssh/known_hosts
           chmod 600 ~/.ssh/known_hosts
 
-      - name: rcp
+      - name: scp jar to was
         run: |
-          ssh spring/demo/build/libs/*.jar ec2-user@${{ secrets.WAS }}:/home/ec2-user/workspace/hana4/
+          scp spring/demo/build/libs/*.jar ec2-user@${{ secrets.WAS }}:/home/ec2-user/workspace/hana4/
