@@ -30,3 +30,7 @@ jobs:
       - name: build with gradle
         working-directory: spring/demo
         run: ./gradlew clean build
+
+      - name: cp jar
+        working-directory: spring/demo
+        run: ls -al build/libs/
