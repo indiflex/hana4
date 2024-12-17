@@ -180,7 +180,7 @@ public class CodeControllerTest {
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 			.andExpect(jsonPath("$.id").value(dto.getId()))
 			.andExpect(jsonPath("$.codeName").value(codeNameToUpdate))
-			.andExpect(jsonPath("$.createAt").value(dto.getCreateAt().toString()))
+			.andExpect(jsonPath("$.createAt", dto.getCreateAt()).exists())
 			.andDo(print());
 	}
 

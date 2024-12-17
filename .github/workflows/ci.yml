@@ -5,7 +5,28 @@ on:
 
 jobs:
   build:
+    runs-on: ubuntu-latest
+
     steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: mv to demo
+        run: cd spring/demo
+
+      - name: listing
+        run: ls -al
+
+      - name: building
+        run: chmod +x ./builddemo.sh
+
+      - name: build
+        run: ./builddemo.sh
+
       - name: grant exe
         run: chmod +x gradlew
 
