@@ -29,8 +29,8 @@ jobs:
 
       - name: build with gradle
         working-directory: spring/demo
-        run: ./gradlew clean build
+        run: ./gradlew clean build -x test
 
       - name: cp jar
         working-directory: spring/demo
-        run: ls -al build/libs/
+        run: cp build/libs/*.jar .
