@@ -41,7 +41,9 @@ jobs:
 
       - name: set .env
         working-directory: my-app
-        run: echo "${{ secrets.ENV }}" > .env
+        run: |
+          touch .env
+          echo "${{ secrets.ENV }}" > .env
 
       - name: grant exe
         working-directory: spring/demo
