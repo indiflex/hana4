@@ -44,7 +44,7 @@ jobs:
         run: |
           touch .env
           ls -al
-          echo "${{ secrets.ENV }}" > .env
+          echo "${{ secrets.ENV }}" 
 
       - name: grant exe
         working-directory: spring/demo
