@@ -42,9 +42,7 @@ jobs:
       - name: set .env
         working-directory: my-app
         run: |
-          touch .env
-          ls -al
-          echo "${{ secrets.ENV }}" 
+          echo "${{ secrets.ENV }}" > .env
 
       - name: grant exe
         working-directory: spring/demo
@@ -85,4 +83,11 @@ jobs:
             rm -rf hana4/my-app/.next
             unzip next.zip -d hana4/my-app &&
             pm2 reload 1
+          '
+
+      - name: restart spring
+        run: |
+          ssh ec2-user@${{ secrets.WAS }} '
+            cd /home/ec2-user/workspace &&
+            ./restart.sh
           '
