@@ -39,3 +39,6 @@ logs/
 
 ### intellij build
 src/main/generated/
+
+### secret
+application-prod.properties
