@@ -43,6 +43,7 @@ jobs:
         working-directory: my-app
         run: |
           touch .env
+          ls -al
           echo "${{ secrets.ENV }}" > .env
 
       - name: grant exe
