@@ -89,5 +89,5 @@ jobs:
         run: |
           ssh ec2-user@${{ secrets.WAS }} '
             cd /home/ec2-user/workspace &&
-            ./restart.sh
+            sudo systemctl restart springboot
           '
