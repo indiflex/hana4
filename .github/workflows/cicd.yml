@@ -79,9 +79,8 @@ jobs:
       - name: restart next
         run: |
           ssh ec2-user@${{ secrets.WAS }} '
-            cd /home/ec2-user/workspace &&
-            rm -rf hana4/my-app/.next
-            unzip next.zip -dq hana4/my-app &&
+            rm -rf /home/ec2-user/workspace/hana4/my-app/.next
+            unzip /home/ec2-user/workspace/next.zip -dq /home/ec2-user/workspace/hana4/my-app &&
             pm2 reload hana4-next
           '
 
