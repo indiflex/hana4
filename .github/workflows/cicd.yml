@@ -81,8 +81,8 @@ jobs:
           ssh ec2-user@${{ secrets.WAS }} '
             cd /home/ec2-user/workspace &&
             rm -rf hana4/my-app/.next
-            unzip next.zip -d hana4/my-app &&
-            pm2 reload 1
+            unzip next.zip -dq hana4/my-app &&
+            pm2 reload hana4-next
           '
 
       - name: restart spring
