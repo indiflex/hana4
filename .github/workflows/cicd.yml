@@ -79,10 +79,19 @@ jobs:
       - name: restart next
         run: |
           ssh ec2-user@${{ secrets.WAS }} '
-            rm -rf /home/ec2-user/workspace/hana4/my-app/.next
-            unzip -q /home/ec2-user/workspace/next.zip -d /home/ec2-user/workspace/hana4/my-app &&
+            cd /home/ec2-user/workspace
+            rm -rf hana4/my-app/.next
+            unzip -q next.zip -d hana4/my-app &&
             pm2 reload hana4-next
           '
+
+#      - name: restart next
+#        run: |
+#          ssh ec2-user@${{ secrets.WAS }} '
+#            rm -rf /home/ec2-user/workspace/hana4/my-app/.next
+#            unzip -q /home/ec2-user/workspace/next.zip -d /home/ec2-user/workspace/hana4/my-app &&
+#            pm2 reload hana4-next
+#          '
 
       - name: restart spring
         run: |
