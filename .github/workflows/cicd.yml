@@ -66,7 +66,7 @@ jobs:
 
       - name: zip next
         working-directory: my-app
-        run: zip -rq next.zip .next
+        run: zip -rq next.zip .next .env
 
       - name: scp next to was
         run: |
